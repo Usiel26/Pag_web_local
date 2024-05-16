@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmar reservación</title>
+    <link rel="stylesheet" href="stylereserva.css">
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Recuperar datos desde sessionStorage
+            var nombre = sessionStorage.getItem('nombre');
+            var apellido = sessionStorage.getItem('apellido');
+            var telefono = sessionStorage.getItem('telefono');
+            var correo = sessionStorage.getItem('correo');
+            var fecha = sessionStorage.getItem('fecha');
+            var hora = sessionStorage.getItem('hora');
+
+            // Mostrar datos en el cuerpo del documento
+            var datoMostrado = document.getElementById('datoMostrado');
+            datoMostrado.textContent += nombre + " " + apellido;
+            var datoMostrado3 = document.getElementById('datoMostrado3');
+            datoMostrado3.textContent += telefono;
+            var datoMostrado4 = document.getElementById('datoMostrado4');
+            datoMostrado4.textContent += correo;
+            var datoMostrado5 = document.getElementById('datoMostrado5');
+            datoMostrado5.textContent += fecha + " - " + hora + ":00";
+
+            // Inicializar la API de Google con el ID de cliente y la clave de API
+            gapi.load('client:auth2', initClient);
+        });
+
+        function initClient() {
+            gapi.client.init({
+                apiKey: 'AIzaSyDoj_AsPZgQWyeAkCXAdxwf9XzrmSKK9ns',
+                clientId: '951538471310-oq0dsb8inqhhlf8ei803mvtt2unnntoj.apps.googleusercontent.com',
+                discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'],
+                scope: 'https://www.googleapis.com/auth/calendar', // Ajusta el alcance según tus necesidades
+            }).then(function () {
+                // Añadir código adicional aquí...
+                document.getElementById('confirmarReserva').addEventListener('click', function() {
+                    var nombre = sessionStorage.getItem('nombre');
+                    var apellido = sessionStorage.getItem('apellido');
+                    var telefono = sessionStorage.getItem('telefono');
+                    var correo = sessionStorage.getItem('correo');
+                    var fecha = sessionStorage.getItem('fecha');
+                    var hora = sessionStorage.getItem('hora');
+
+                    var event = {
+                        'summary': nombre + ' ' + apellido,
+                        'description': 'Teléfono: ' + telefono + '\nCorreo: ' + correo,
+                        'start': {
+                            'dateTime': fecha + 'T' + hora + ':00:00',
+                            'timeZone': 'America/Lima',
+                        },
+                        'end': {
+                            'dateTime': fecha + 'T' + hora + ':60:00',
+                            'timeZone': 'America/Lima',
+                        },
+                    };
+
+                    gapi.client.calendar.events.insert({
+                        'calendarId': 'primary',
+                        'resource': event,
+                    }).then(function(response) {
+                        console.log('Evento creado:', response);
+                        alert('Reserva confirmada y agregada al calendario.');
+                    }).catch(function(error) {
+                        console.error('Error al crear el evento:', error);
+                        alert('Error al confirmar la reserva. Verifica la consola del navegador para obtener detalles.');
+                    });
+
+                });
+            });
+        }
+    </script>
+</head>
+<body>
+    <!-- Estructura del cuerpo del documento -->
+    <div class="background-container"></div>
+    <div class="content-box3">
+        <h2>Confirmar Datos</h2>
+        <p id="datoMostrado">NOMBRE:</p>
+        <p id="datoMostrado3">TELEFONO: </p>
+        <p id="datoMostrado4">CORREO: </p>
+        <p id="datoMostrado5">FECHA Y HORA: </p>
+        <button type="button" id="confirmarReserva" class="boton3">Confirmar reserva</button>
+    </div>
+    <figure class="imagenres3"><img src="siu.png" height="400px" alt="logo"></figure>
+</body>
+</html>

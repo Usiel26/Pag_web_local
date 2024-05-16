@@ -1,0 +1,110 @@
+<!-- SEGUNDA PESTAÑA -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylereserva.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="script_otra_pagina.js" defer></script> <!-- Agregamos el script_otra_pagina.js -->
+    <title>Reserva de Fecha y Hora</title>
+</head>
+<body>
+    <div class="background-container"></div>
+    <div class="content-box">
+        <h2>Reserva de Fecha y Hora</h2>
+        <form class="reservation-form" id="reservationForm">
+            <div class="row">
+                <label for="fecha">Selecciona la fecha:</label>
+                <input type="text" id="fecha" class="form-input" placeholder="Selecciona la fecha" required>
+            </div>
+            <div class="row">
+                <label>Selecciona la hora:</label>
+                <div class="hora-buttons">
+                    <!-- Botones de hora con un atributo data-hour para identificar la hora -->
+                    <button type="button" class="hour-button" data-hour="9">9 am</button>
+                    <button type="button" class="hour-button" data-hour="10">10 am</button>
+                    <button type="button" class="hour-button" data-hour="11">11 am</button>
+                    <button type="button" class="hour-button" data-hour="12">12 am</button>
+                    <button type="button" class="hour-button" data-hour="13">1 pm</button>
+                    <button type="button" class="hour-button" data-hour="14">2 pm</button>
+                    <button type="button" class="hour-button" data-hour="15">3 pm</button>
+                    <button type="button" class="hour-button" data-hour="16">4 pm</button>
+                    <button type="button" class="hour-button" data-hour="17">5 pm</button>
+                    <!-- Agrega los botones restantes aquí -->
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        flatpickr("#fecha", {
+            enableTime: false,
+            dateFormat: "Y-m-d",
+            minDate: "today"
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var fechaInput = document.getElementById('fecha');
+            var horaButtons = document.querySelectorAll('.hora-buttons button');
+
+            flatpickr(fechaInput, {
+                enableTime: false,
+                dateFormat: "Y-m-d",
+                minDate: "today",
+                onChange: function (selectedDates, dateStr, instance) {
+                    var isFechaSeleccionada = selectedDates.length > 0;
+                    horaButtons.forEach(function (button) {
+                        button.disabled = !isFechaSeleccionada;
+                    });
+                }
+            });
+
+            horaButtons.forEach(function (button) {
+                button.addEventListener('click', function () {
+                    if (!fechaInput.value) {
+                        alert('Por favor, selecciona una fecha antes de elegir la hora.');
+                        return;
+                    }
+
+                    horaButtons.forEach(function (btn) {
+                        btn.classList.remove('selected');
+                    });
+
+                    button.classList.add('selected');
+
+                    // Confirmar la reserva al seleccionar una hora
+                    submitReservation();
+                });
+            });
+        });
+
+        function submitReservation() {
+            var nombre = sessionStorage.getItem('nombre');
+            var apellido = sessionStorage.getItem('apellido');
+            var telefono = sessionStorage.getItem('telefono');
+            var correo = sessionStorage.getItem('correo');
+            var fecha = document.getElementById('fecha').value;
+            var horaSeleccionada = document.querySelector('.hour-button.selected');
+            var hora = horaSeleccionada ? horaSeleccionada.getAttribute('data-hour') : '';
+
+            if (!nombre || !apellido || !telefono || !correo || !fecha || !hora) {
+                alert('Por favor, completa todos los campos antes de confirmar la reserva.');
+                return;
+            }
+            sessionStorage.setItem('fecha', fecha);
+            sessionStorage.setItem('hora', hora);
+            // Redirigir a otra página
+            window.location.href = 'reserva3.html'; // Cambia 'reserva3.html' por la URL de tu siguiente página
+        }
+
+    </script>
+    <script>
+
+    </script>
+</body>
+</html>
+
+

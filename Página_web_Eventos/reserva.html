@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylereserva.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="script.js" defer></script> <!-- Agregamos el script.js -->
+    <title>Reserva</title>
+</head>
+<body>
+    <div class="center-image">
+        <figure><img src="siu.png" height="200px" alt="logo"></figure>
+    </div>
+    <div class="background-container"></div>
+    <div class="content-box2">
+        <h2>Registro de Reserva</h2>
+        <form class="registration-form" id="registrationForm">
+            <div class="row">
+                <div class="column">
+                    <input type="text" class="form-input" placeholder="Nombre" required>
+                    <input type="text" class="form-input" placeholder="Apellido" required>
+                </div>
+                <div class="column">
+                    <input type="tel" class="form-input" placeholder="Número de teléfono" required>
+                    <input type="email" class="form-input" placeholder="Correo electrónico" required>
+                </div>
+            </div>
+            <div class="center-container">
+                <button type="button" onclick="submitForm()">Continuar</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        function submitForm() {
+            // Capturar datos del formulario
+            var nombre = document.querySelector('.form-input[placeholder="Nombre"]').value;
+            var apellido = document.querySelector('.form-input[placeholder="Apellido"]').value;
+            var telefono = document.querySelector('.form-input[placeholder="Número de teléfono"]').value;
+            var correo = document.querySelector('.form-input[placeholder="Correo electrónico"]').value;
+
+            // Guardar datos en localStorage
+            sessionStorage.setItem('nombre', nombre);
+            sessionStorage.setItem('apellido', apellido);
+            sessionStorage.setItem('telefono', telefono);
+            sessionStorage.setItem('correo', correo);
+
+            // Redirigir a otra página
+            window.open('reserva2.html'); // Cambia 'reserva2.html' por la URL de la siguiente página
+        }
+
+
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

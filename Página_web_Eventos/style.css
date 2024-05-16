@@ -1,0 +1,479 @@
+*{
+    margin: 0;
+    padding: 0;
+    border: 0; 
+    font-size: 100%;
+    vertical-align: baseline;
+}
+html, body {
+    scroll-behavior: smooth;
+}
+body {
+    text-align: center;
+    font-family: sans-serif;
+    margin: 0;
+}
+
+.head{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 80px;
+    background: rgb(255, 255, 255);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+}
+
+.navbar{
+    display: flex;
+    margin-right: 10px;
+}
+
+.logo{
+    margin-left: 30px;
+}
+
+.logo a{
+    text-decoration: none;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 20px;
+}
+
+.navbar a{
+    display: block;
+    padding: 10px 5px;
+    color: #000;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 20px;
+}
+
+.navbar a:hover{
+    background: #bdbaba;
+}
+
+button{
+    position: relative;
+    padding: 10px 60px;
+    border: none;
+    outline: none;
+    background: rgb(255, 255, 255);
+    color: #000;
+    text-transform: uppercase;
+    font-size: 20px;
+    overflow: hidden;
+    font-weight: bold;
+    font-family: 'Cormorant Garamond';
+}
+
+button:hover{
+    color: #849084;
+}
+
+button span{
+    position: absolute;
+    background: #000;
+    transition: .3s;
+}
+
+button span:nth-child(1){
+    width: 1px;
+    height: 100%;
+    bottom: -100%;
+    left: 0;
+}
+button span:nth-child(2){
+    width: 1px;
+    height: 100%;
+    top: -100%;
+    right: 0;
+}
+
+button:hover span:nth-child(1){
+    bottom: 0;
+}
+button:hover span:nth-child(2){
+    top: 0;
+}
+.panel {
+    margin-top: 80px;
+    display: flex;
+    height: 91vh;
+    background-image: url("evento1test.jpg");
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.imagen-panel {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+}
+
+.imagen-principal {
+    max-width: 100%;
+    max-height: 100%;
+    z-index: 1;
+}
+
+.interfaz-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.galeria {
+    display: flex;
+    overflow: hidden;
+    background-color: rgb(201, 197, 197,0.7); /* Color gris de fondo */
+    border-radius: 15px; /* Suaviza los bordes */
+    padding: 10px; /* Espaciado interno */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
+}
+
+.item-galeria {
+    flex: 0 0 auto;
+    margin: 0 10px;
+    text-align: center;
+    background-color: #fff; /* Fondo blanco para las miniaturas */
+    padding: 15px; /* Espaciado interno */
+    border-radius: 8px; /* Suaviza los bordes de las miniaturas */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+.item-galeria p {
+    color: black; /* Cambia el color de la letra a negro */
+    font-family: 'Monospace', monospace; /* Cambia la fuente a Arial */
+    margin-top: 10px; /* Espaciado superior para separar la imagen de la descripción */
+}
+
+.miniatura {
+    width: 450px;
+    height: 450px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.reserva-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+
+.reserva-btn button {
+    font-size: 16px;
+    padding: 10px 20px;
+    background-color: #c2a115;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.reserva-btn button:hover {
+    background-color: #8c6f00;
+}
+
+.panel-overlay {
+    position: absolute;
+    top: 0;
+    left: 8%;
+    width: 26%;
+    height: 91vh;
+    background-color: #668565; /* Color dorado con transparencia */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff; /* Color del texto */
+    transition: opacity 0.5s ease; /* Añade la transición a opacity */
+    opacity: 1; /* Configura la opacidad inicial */
+}
+.panel-overlay.oculto {
+    opacity: 0; /* Cambia la opacidad a 0 para ocultar el panel */
+}
+.texto-recuadro {
+    text-align: center;
+    font-family: 'Noto Serif JP', serif;
+}
+
+.texto-recuadro h1 {
+    font-size: 50px;
+    margin-bottom: 10px;
+}
+
+.texto-recuadro p {
+    font-size: 25px;
+    margin: 0;
+}
+
+/* Agrega el siguiente bloque de estilos al final de tu archivo de estilos CSS */
+.flecha-izquierda, .flecha-derecha {
+    font-size: 24px;
+    color: #fff;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.flecha-izquierda {
+    left: 10px;
+}
+
+.flecha-derecha {
+    right: 10px;
+}
+
+/* Dentro de tu archivo de estilos CSS */
+.indicadores {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    position: absolute;
+    bottom: 10px;
+    left: 50px;
+    width: 100%;
+}
+
+.indicador {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #ccc;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.indicador.activo {
+    background-color: #555;
+}
+
+
+/* Estilo adicional para el fondo verde */
+.whatsapp-icon {
+    background-color: #25D366; /* Color verde de WhatsApp */
+    display: inline-block;
+    padding: 10px;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease-in-out;
+    height: 50px;
+    width: 50px;
+}
+
+.whatsapp-icon:hover {
+    background-color: #128C7E; /* Color verde oscuro al pasar el ratón */
+}
+
+
+.title{
+    margin-bottom: 40px;
+    font-size: 60px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+p{
+    margin-bottom: 40px;
+    font-size: 18px;
+    color: #fff;
+    padding: 0 100px;
+}
+
+.btn{
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 40px;
+    border: 2px solid #c2a115;
+    color: #fff;
+    text-decoration: none;
+    background: #c2a115;
+}
+
+.btn:hover{
+    background: none;
+    border: none;
+}
+
+.btn-home{
+    display: flex;
+}
+
+.btn-home a{
+    margin: 0 10px;
+
+}
+
+.content{
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.sau{
+    padding: 30px;
+    background: #1f1d1d;
+}
+
+.box-container{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+.box-container .box{
+    height: 11rem;
+    width: 17rem;
+    background: #101010;
+    text-align: center;
+    border-radius: 1rem;
+    box-shadow: 0 .3 5rem rgba(0, 0, 0, .5);
+    margin: 2rem;
+    justify-content: center;
+    display: flex; /* Agrega display flex para centrar horizontalmente */
+    flex-direction: column; /* Ajusta el diseño a columna */
+    align-items: center; /* Centra los elementos horizontalmente */
+    transition: transform 0.3s ease; /* Agrega una transición suave */
+    cursor: pointer; /* Cambia el cursor a la mano cuando está sobre la caja */
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+}
+.box-container .box:hover {
+    transform: scale(1.1); /* Escala la caja en un 10% cuando el cursor está sobre ella */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3); /* Cambia la sombra cuando el cursor está sobre la caja */
+}
+
+.box-container .box i{
+    height: 3rem;
+    width: 3rem;
+    line-height: 3rem;
+    text-align: center;
+    border-radius: 50%;
+    color: #fff;
+    background: #c2a115;
+    font-size: 2rem;
+    margin: 1rem 0;
+}
+
+.box-container .box h3{
+    font-size: 20px;
+    color: #ace09b;
+}
+
+.box-container .box p{
+    padding: 0 15px;
+    font-size: 16px;
+}
+
+.about{
+    background: #171717;
+    background: url(decoracion.jpg) no-repeat center;
+    background-attachment: fixed;
+    background-size: cover;
+    text-align: center;
+}
+
+.contact{
+    padding-top: 20px;
+    background: #171717;
+    padding-bottom: 0;
+}
+
+@media (max-width: 768px){
+    .title{
+        margin-bottom: 0;
+        font-size:40px;
+    }
+
+    .sau{
+        height: 120vh;
+    }
+
+    .navbar{
+        display: none;
+    }
+}
+
+.paquete_circulito{
+    background:  #ace09b;
+    border-radius: 50%;
+    padding: 10px;
+    display: flex;
+    height: 30px;
+    width: 30px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+/* Agrega estos estilos al final de tu archivo de estilos CSS */
+
+.overlay-box {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 999;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    border-radius: 10px;
+    transition: width 0.5s ease, height 0.5s ease;
+}
+
+.overlay-box.active {
+    width: 150%;
+    height: 300%;
+    display: flex;
+    transition: width 0.5s ease, height 0.5s ease;
+}
+
+.overlay-content {
+    color: #fff;
+    text-align: center;
+}
+
+.overlay-content img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 10px;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+}
+.animated-rectangle {
+    position: fixed;
+    background-color: #c2a115;
+    color: #fff;
+    font-size: 18px;
+    padding: 15px;
+    border-radius: 5px;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    transform: translate(-50%, -50%) scale(1, 1);
+    opacity: 1;
+    z-index: 999; /* Asegúrate de que esté encima de otros elementos */
+}

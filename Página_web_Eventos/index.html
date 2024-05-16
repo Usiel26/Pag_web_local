@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha384-TDR77NygVs+AUUG1Co7QlmrA33z4haD3PrLk2URqD5pa+9bjHPG1BwL4XL7JgCV6" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Serif+JP&display=swap">
+    <link rel="stylesheet" href="style.css">
+    
+    <title>Los Ficus</title>
+</head>
+<body>
+    <div class="head">
+        <div class="logo">
+            <a href="#" id="btnInicio">
+                <figure><img src="logofinaldeverdad.png" height="50px" alt="logo"></figure>
+            </a>
+        </div>
+        <nav class="navbar">
+            <button id="btnPaquetes">
+                <span></span>
+                <span></span>
+                Paquetes
+            </button>
+            <button id="btnNosotros">
+                <span></span>
+                <span></span>
+                Nosotros
+            </button>
+            <button id="btnContacto">
+                <span></span>
+                <span></span>
+                Contacto
+            </button>
+        </nav>
+    </div>
+    <div class="panel" id="panel">
+        <div class="flecha-izquierda" onclick="cambiarImagen(-1)">&#9664;</div>
+        <div class="panel-overlay">
+            <div class="texto-recuadro">
+                <h1 id="titulo-recuadro">Evento 1</h1>
+                <p id="texto-recuadro">Testimonio 1</p>
+            </div>
+        </div>
+        <div class="indicadores"></div> <!-- Nuevo contenedor para los indicadores -->
+        <div class="flecha-derecha" onclick="cambiarImagen(1)">&#9654;</div>
+    </div>
+    <div class="reserva-btn">
+        <a href="https://api.whatsapp.com/send?phone=923708250&text=Hola%2C%20tengo%20una%20consulta" target="_blank" id="whatsappButton" class="whatsapp-icon">
+            <i class="fab fa-whatsapp fa-3x"></i>
+        </a>
+    </div>
+    
+    <section id="paquetes" class="content sau">
+        <h2 class="title">Paquetes</h2>
+        <p>
+            Se brinda una variedad de paquetes para distintos tipos de evento. Entre ellos están bodas, cumpleaños, bautizos, graduaciones, entre otros.
+        </p>
+        <div class="box-container">
+            <div class="box">
+                <figure class="paquete_circulito"><img src="wedding-removebg-preview.png" height="40px" alt="wedding_icon"></figure>
+                <h3>Bodas</h3>
+            </div>
+            <div class="box">
+                    <figure class="paquete_circulito"><img src="cake-removebg-preview.png" height="35px" alt="cake_icon"></figure>
+                    <h3>Cumpleaños</h3>
+            </div>
+            <div class="box">
+                <figure class="paquete_circulito"><img src="baptism-removebg-preview.png" height="35px" alt="baptism_icon"></figure>
+                <h3>Bautizos</h3>
+            </div>
+            <div class="box">
+                <figure class="paquete_circulito"><img src="graduation-removebg-preview.png" height="30px" alt="graduation_icon"></figure>
+                <h3>Graduaciones</h3>
+            </div>
+        </div>
+    </section>
+    <section id="nosotros" class="content about">
+        <article>
+            <h2 class="title">Nosotros</h2>
+            <p>Somos nosotros</p>
+            <a href="#" class="btn">Saber más</a> 
+        </article>
+
+    </section>
+
+    <section id="contacto" class="content contact">
+
+        <h2 class="title">Contacto</h2>
+        <p>
+            Celular: +51941497280
+        </p>
+        <p>
+            Correo: lficussalon@gmail.com
+        </p>
+        <p>
+            Dirección: Cruce de Av. Cutervo con  Ica 11004
+        </p>
+
+
+    </section>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const panel = document.querySelector('.panel');
+            const panelOverlay = document.querySelector('.panel-overlay');
+            const flechaIzquierda = document.querySelector('.flecha-izquierda');
+            const flechaDerecha = document.querySelector('.flecha-derecha');
+            const indicadoresContainer = document.querySelector('.indicadores');
+            const imagenes = ["evento1test.jpg", "evento2test.jpg", "evento3test.jpg", "evento4test.jpg"];
+            const contenidoRecuadro = [
+                { titulo: "Evento 1", texto: "Testimonio 1" },
+                { titulo: "Evento 2", texto: "Testimonio 2" },
+                { titulo: "Evento 3", texto: "Testimonio 3" },
+                { titulo: "Evento 4", texto: "Testimonio 4" }
+            ];
+            let indiceActual = 0;
+
+            function cambiarContenido(direccion) {
+                indiceActual += direccion;
+
+                if (indiceActual < 0) {
+                    indiceActual = imagenes.length - 1;
+                } else if (indiceActual >= imagenes.length) {
+                    indiceActual = 0;
+                }
+
+                const nuevaImagen = imagenes[indiceActual];
+                const nuevoContenido = contenidoRecuadro[indiceActual];
+
+                panelOverlay.classList.add('oculto');
+
+                setTimeout(function () {
+                    panel.style.backgroundImage = `url('${nuevaImagen}')`;
+                    document.getElementById('titulo-recuadro').innerText = nuevoContenido.titulo;
+                    document.getElementById('texto-recuadro').innerText = nuevoContenido.texto;
+                    panelOverlay.classList.remove('oculto');
+                }, 500);
+
+                actualizarIndicadores();
+            }
+
+            function crearIndicadores() {
+                indicadoresContainer.innerHTML = ''; // Limpiar indicadores existentes
+
+                for (let i = 0; i < imagenes.length; i++) {
+                    const indicador = document.createElement('div');
+                    indicador.classList.add('indicador');
+                    indicador.addEventListener('click', function () {
+                        cambiarContenido(i - indiceActual);
+                    });
+
+                    indicadoresContainer.appendChild(indicador);
+                }
+
+                actualizarIndicadores();
+            }
+
+            function actualizarIndicadores() {
+                const indicadores = indicadoresContainer.querySelectorAll('.indicador');
+                
+                indicadores.forEach((indicador, i) => {
+                    if (i === indiceActual) {
+                        indicador.classList.add('activo');
+                    } else {
+                        indicador.classList.remove('activo');
+                    }
+                });
+            }
+
+            crearIndicadores(); // Llamada inicial para crear los indicadores
+
+            // Agrega eventos de clic a las flechas
+            flechaDerecha.addEventListener('click', function () {
+                cambiarContenido(1);
+            });
+
+            flechaIzquierda.addEventListener('click', function () {
+                cambiarContenido(-1);
+            });
+
+            // Cambia automáticamente cada 10 segundos
+            setInterval(function () {
+                cambiarContenido(1);
+            }, 10000);
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const btnInicio = document.getElementById("btnInicio");
+            const btnPaquetes = document.getElementById("btnPaquetes");
+            const btnNosotros = document.getElementById("btnNosotros");
+            const btnContacto = document.getElementById("btnContacto");
+
+            function scrollToSection(sectionId) {
+                const section = document.getElementById(sectionId);
+                const offset = -80; // Ajusta la compensación según tus necesidades
+                const offsetTop = section.getBoundingClientRect().top + window.scrollY + offset;
+
+                window.scrollTo({
+                    top: offsetTop,
+                    behavior: "smooth"
+                });
+            }
+
+            btnInicio.addEventListener("click", function () {
+                scrollToSection("panel");
+            });
+
+            btnPaquetes.addEventListener("click", function () {
+                scrollToSection("paquetes");
+            });
+
+            btnNosotros.addEventListener("click", function () {
+                scrollToSection("nosotros");
+            });
+
+            btnContacto.addEventListener("click", function () {
+                scrollToSection("contacto");
+            });
+        });
+        document.addEventListener("DOMContentLoaded", function () {
+            const reservaButton = document.getElementById('reservaButton');
+
+            reservaButton.addEventListener('click', function () {
+                redirigirAPaginaDeReserva();
+            });
+            function redirigirAPaginaDeReserva() {
+                const urlReserva = 'reserva.html';
+
+                window.location.href = urlReserva;
+            }
+        });
+        document.addEventListener("DOMContentLoaded", function () {
+            const whatsappButton = document.getElementById('whatsappButton');
+    
+            whatsappButton.addEventListener('click', function () {
+                const whatsappLink = 'https://api.whatsapp.com/send?phone=923708250&text=Hola%2C%20tengo%20una%20consulta';
+    
+                window.open(whatsappLink, '_blank');
+            });
+        });
+        document.addEventListener("DOMContentLoaded", function () {
+            const boxes = document.querySelectorAll('.box');
+
+            boxes.forEach(function (box) {
+                box.addEventListener('click', function () {
+                    // Crear el rectángulo animado
+                    const animatedRectangle = document.createElement('div');
+                    animatedRectangle.classList.add('animated-rectangle');
+
+                    // Obtener las dimensiones de la caja clickeada
+                    const boxRect = box.getBoundingClientRect();
+
+                    // Obtener las coordenadas en relación con la ventana
+                    const top = boxRect.top + window.scrollY;
+                    const left = boxRect.left;
+
+                    // Configurar el contenido del rectángulo (puedes cambiar el texto)
+                    animatedRectangle.innerText = 'Tu texto aquí';
+
+                    // Posicionar el rectángulo en el centro de la caja clickeada
+                    animatedRectangle.style.top = `${top + boxRect.height / 2}px`;
+                    animatedRectangle.style.left = `${left + boxRect.width / 2}px`;
+
+                    // Añadir el rectángulo al cuerpo del documento
+                    document.body.appendChild(animatedRectangle);
+
+                    // Aplicar la animación
+                    setTimeout(function () {
+                        animatedRectangle.style.transform = 'translate(-50%, -50%) scale(3, 1.5)';
+                        animatedRectangle.style.opacity = '0';
+                    }, 10);
+
+                    // Eliminar el rectángulo después de que termine la animación
+                    setTimeout(function () {
+                        animatedRectangle.remove();
+                    }, 600); // Ajusta este valor según la duración de tu animación
+                });
+            });
+        });
+    </script>
+</body>
+</html>

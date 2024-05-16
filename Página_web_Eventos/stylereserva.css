@@ -1,0 +1,165 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0; 
+    font-size: 100%;
+    vertical-align: baseline;
+}
+
+body {
+    margin: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url(20231205_193110.jpg) no-repeat center center fixed;
+    background-size: cover;
+    filter: blur(5px);
+    z-index: -1;
+}
+
+.content-box {
+    text-align: center;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    max-width: 800px;
+    width: 80%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.registration-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.column {
+    width: 48%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.form-input {
+    margin-bottom: 15px;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    background: #d6d6d6;
+    border-radius: 8px;
+}
+
+button {
+    width: 50%;
+    padding: 10px;
+    box-sizing: border-box;
+    background: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    align-items: center;
+}
+
+.boton3{
+    background: #fff;
+    color: #000;
+    font-family: 'Cormorand Garamond'
+}
+
+.boton3:hover{
+    background: #807f7f;
+}
+
+button:hover {
+    background: #000000;
+}
+.content-box h2 {
+    margin-bottom: 20px; /* Ajusta el valor según la cantidad de espacio que desees */
+    text-align: center;
+}
+.content-box3 h2 {
+    margin-bottom: 20px;
+    text-align:center
+}
+
+
+
+.center-image img {
+    width: 50%; /* Ajusta el ancho de la imagen según tus necesidades */
+    height: auto;
+    position: relative;
+    transform: translateX(30%);
+}
+
+.content-box3 button{
+    align-items: center;
+}
+
+.hora-buttons {
+    display: flex;
+    gap: 10px; /* Ajusta el espacio entre los botones según sea necesario */
+    align-items: center; /* Centra verticalmente los botones en el contenedor */
+}
+
+.hora-buttons button {
+    flex: 1; /* Hace que los botones ocupen el espacio disponible en la fila */
+    height: 40px; /* Ajusta la altura de los botones según sea necesario */
+    width: 70px;
+}
+
+.content-box3 {
+    padding: 20px;
+    background-color: #4caf50;
+    border-radius: 10px;
+    max-width: 800px;
+    width: 20%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #fff;
+}
+
+.content-box2 {
+    text-align: center;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    max-width: 800px;
+    width: 80%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: translateX(-40%);
+}
+
+.content-box3 p{
+    padding: 10px;
+    align-items: left;
+}
+
+.imagenres3{
+    transform: translateX(25%);
+}
+
