@@ -41,7 +41,7 @@ Más adelante se puede conectar un dominio propio, por ejemplo `losficus.pe`.
 ## Pendientes de contenido
 
 - [ ] Enlace real de Instagram en `js/config.js`.
-- [ ] Confirmar el número de WhatsApp. Ahora es el mismo celular de contacto, 941 497 280.
+- [x] WhatsApp y celular confirmados: 941 497 280.
 - [ ] Dirección exacta y ubicación del mapa.
 - [ ] Datos del salón: capacidad, servicios incluidos y estacionamiento (sección "El salón" en `index.html`).
 - [ ] Fotos de eventos reales y una foto de portada con el salón terminado.
