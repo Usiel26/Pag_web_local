@@ -18,7 +18,7 @@ var CONFIG = {
   ENVIAR_CONFIRMACION: true,              // correo de confirmación al cliente
   CORREO_AVISO: "",                       // correo extra para avisar de cada cita (opcional)
   NOMBRE_NEGOCIO: "Los Ficus · Centro de eventos",
-  DIRECCION: "Cruce de Av. Cutervo, Ica",
+  DIRECCION: "Local de eventos Los Ficus, Cruce de Av. Cutervo, Ica 11004",
   WHATSAPP: "+51 941 497 280"
 };
 
