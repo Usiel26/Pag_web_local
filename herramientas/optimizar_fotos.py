@@ -7,6 +7,7 @@ Uso (desde la carpeta del proyecto):
 - Toma todas las fotos JPG, PNG, HEIC* o WebP de la carpeta indicada.
 - Las gira según el celular, las reduce a 1600 px y las guarda en WebP.
 - Las deja en assets/img/testimonios/<nombre>/01.webp, 02.webp, …
+  (más una miniatura 01-mini.webp para que la página cargue rápido)
 - Al final imprime la lista "fotos" lista para pegar en js/config.js.
 
 Requiere Pillow:  pip install pillow
@@ -50,6 +51,9 @@ def main():
         img.thumbnail((ANCHO_MAX, ANCHO_MAX), Image.LANCZOS)
         salida = destino / f"{i:02d}.webp"
         img.save(salida, "WEBP", quality=CALIDAD, method=6)
+        mini = img.copy()
+        mini.thumbnail((480, 480), Image.LANCZOS)
+        mini.save(destino / f"{i:02d}-mini.webp", "WEBP", quality=76, method=6)
         kb = salida.stat().st_size // 1024
         print(f"  {foto.name}  ->  {salida.relative_to(raiz).as_posix()}  ({kb} KB)")
         rutas.append(salida.relative_to(raiz).as_posix())

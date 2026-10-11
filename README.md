@@ -85,7 +85,9 @@ Más adelante se puede conectar un dominio propio, por ejemplo `losficus.pe`.
 
 - [ ] Enlace real de Instagram en `js/config.js`.
 - [x] WhatsApp y celular confirmados: 941 497 280.
-- [ ] Dirección exacta y ubicación del mapa.
+- [x] Dirección y ubicación del mapa.
+- [ ] Confirmar el horario de visitas (Contacto, pie de página y datos para Google en `index.html`).
 - [ ] Datos del salón: capacidad, servicios incluidos y estacionamiento (sección "El salón" en `index.html`).
 - [ ] Reemplazar los testimonios de ejemplo por reales (`js/config.js`) y borrar `assets/img/testimonios/ejemplo-*`.
+- [ ] Cuando haya dominio propio: poner la URL completa en `og:image` y agregar `url` en los datos para Google (`index.html`).
 - [ ] Fotos de eventos reales y una foto de portada con el salón terminado.

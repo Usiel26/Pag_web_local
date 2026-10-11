@@ -42,6 +42,38 @@
       toggle.focus();
     }
   });
+  document.addEventListener("click", function (e) {
+    if (nav.classList.contains("is-open") && !e.target.closest(".site-header")) cerrarMenu();
+  });
+
+  /* ---------- Botón flotante: no tapar el formulario de reserva ---------- */
+  var waFloat = document.querySelector(".wa-float");
+  var seccionReserva = document.getElementById("reservar");
+  if (waFloat && seccionReserva && "IntersectionObserver" in window) {
+    new IntersectionObserver(function (entradas) {
+      waFloat.classList.toggle("is-hidden", entradas[0].isIntersecting);
+    }, { threshold: 0.15 }).observe(seccionReserva);
+  }
+
+  /* ---------- Encabezado: se oculta al bajar y vuelve al subir ---------- */
+  var header = document.querySelector(".site-header");
+  var ultimoY = window.scrollY;
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  window.addEventListener("scroll", function () {
+    var y = window.scrollY;
+    var bajando = y > ultimoY + 4;
+    var subiendo = y < ultimoY - 4;
+    if (bajando && y > 400 && !nav.classList.contains("is-open") && !header.contains(document.activeElement)) {
+      header.classList.add("is-hidden");
+    } else if (subiendo || y < 400) {
+      header.classList.remove("is-hidden");
+    }
+    if (bajando || subiendo) ultimoY = y;
+  }, { passive: true });
+  // si el foco del teclado entra al encabezado, se vuelve a mostrar
+  document.addEventListener("focusin", function (e) {
+    if (header.contains(e.target)) header.classList.remove("is-hidden");
+  });
 
   /* ---------- Testimonios con galería ---------- */
   var MAX_MINIATURAS = 3; // fotos pequeñas bajo la principal
@@ -58,17 +90,22 @@
     btn.type = "button";
     btn.className = "t-photo " + clase;
     btn.dataset.index = indice;
-    btn.setAttribute("aria-label", "Ver foto " + (indice + 1) + " de " + total + " en grande");
+    btn.setAttribute("aria-label", (extra ? extra + (extra === 1 ? " foto más. " : " fotos más. ") : "") + "Ver foto " + (indice + 1) + " de " + total + " en grande");
     var img = document.createElement("img");
-    img.src = foto.src;
+    // las miniaturas usan la versión "-mini" si existe (la crea optimizar_fotos.py)
+    if (clase === "t-thumb" && /\.webp$/.test(foto.src)) {
+      img.src = foto.src.replace(/\.webp$/, "-mini.webp");
+      img.onerror = function () { img.onerror = null; img.src = foto.src; };
+    } else {
+      img.src = foto.src;
+    }
     img.alt = foto.alt;
     img.loading = "lazy";
     btn.appendChild(img);
     if (extra) {
-      var mas = document.createElement("span");
-      mas.className = "t-more";
-      mas.textContent = "+" + extra;
-      btn.appendChild(mas);
+      // el "+N" se dibuja con CSS; el lector de pantalla lo escucha en aria-label
+      btn.classList.add("has-more");
+      btn.dataset.more = "+" + extra;
     }
     return btn;
   }
@@ -165,12 +202,16 @@
       return d;
     });
 
+    // distancia entre un testimonio y el siguiente (en celular se asoma el siguiente)
+    function paso() {
+      return slides.length > 1 ? slides[1].offsetLeft - slides[0].offsetLeft : track.clientWidth;
+    }
     function actual() {
-      return Math.round(track.scrollLeft / track.clientWidth);
+      return Math.round(track.scrollLeft / paso());
     }
     function ir(i) {
       i = Math.max(0, Math.min(total - 1, i));
-      track.scrollTo({ left: i * track.clientWidth, behavior: "smooth" });
+      track.scrollTo({ left: i * paso(), behavior: reduceMotion.matches ? "auto" : "smooth" });
     }
     function actualizar() {
       var i = actual();
@@ -394,23 +435,55 @@
     return datos;
   }
 
+  /* Validación en línea: se revisa al salir de cada campo y el error
+     desaparece apenas el dato se corrige (recomendación de Baymard). */
+  var reglas = {
+    nombre: function (v) { return v.trim().length >= 3 ? "" : "Escribe tu nombre y apellido."; },
+    celular: function (v) {
+      var c = v.replace(/[\s-]/g, "").replace(/^\+?51/, "");
+      if (!c) return "Escribe tu número de celular.";
+      return /^9\d{8}$/.test(c) ? "" : "El celular debe tener 9 dígitos y empezar con 9.";
+    },
+    correo: function (v, el) {
+      if (!v.trim()) return "Escribe tu correo para enviarte la confirmación.";
+      return el.checkValidity() ? "" : "Revisa el correo, por ejemplo: nombre@gmail.com";
+    },
+    tipo: function (v) { return v ? "" : "Elige el tipo de evento."; }
+  };
+
+  function revisarCampo(id) {
+    var el = document.getElementById(id);
+    var msg = reglas[id](el.value, el);
+    var box = document.getElementById(id + "-error");
+    if (msg) {
+      el.setAttribute("aria-invalid", "true");
+      box.textContent = msg;
+      box.hidden = false;
+    } else {
+      el.removeAttribute("aria-invalid");
+      box.hidden = true;
+    }
+    return !msg;
+  }
+
+  Object.keys(reglas).forEach(function (id) {
+    var el = document.getElementById(id);
+    el.addEventListener("blur", function () { if (el.value) revisarCampo(id); });
+    el.addEventListener(el.tagName === "SELECT" ? "change" : "input", function () {
+      if (el.getAttribute("aria-invalid") === "true") revisarCampo(id);
+    });
+  });
+
   function validar(datos) {
     var faltan = [];
-    form.querySelectorAll("[aria-invalid]").forEach(function (el) {
-      if (el !== fechaInput) el.removeAttribute("aria-invalid");
-    });
-    function marcar(id, nombre) {
-      document.getElementById(id).setAttribute("aria-invalid", "true");
-      faltan.push(nombre);
+    if (!datos.fechaCita || fechaInput.getAttribute("aria-invalid") === "true") {
+      fechaInput.setAttribute("aria-invalid", "true");
+      faltan.push("el día");
     }
-    if (!datos.fechaCita || fechaInput.getAttribute("aria-invalid") === "true") marcar("fecha-cita", "día de la cita");
-    if (!datos.hora) faltan.push("hora");
-    if (!datos.nombre || datos.nombre.length < 3) marcar("nombre", "nombre");
-    var cel = (datos.celular || "").replace(/[\s-]/g, "").replace(/^\+?51/, "");
-    if (!/^9\d{8}$/.test(cel)) marcar("celular", "celular (9 dígitos, empieza con 9)");
-    else datos.celular = cel;
-    if (!document.getElementById("correo").checkValidity() || !datos.correo) marcar("correo", "correo");
-    if (!datos.tipoEvento) marcar("tipo", "tipo de evento");
+    if (!datos.hora) faltan.push("la hora");
+    var camposOk = Object.keys(reglas).map(revisarCampo).every(Boolean);
+    if (!camposOk) faltan.push("tus datos");
+    datos.celular = (datos.celular || "").replace(/[\s-]/g, "").replace(/^\+?51/, "");
     return faltan;
   }
 
@@ -448,8 +521,9 @@
 
     var faltan = validar(datos);
     if (faltan.length) {
-      mostrarError("Revisa estos campos: " + faltan.join(", ") + ".");
-      var primero = form.querySelector('[aria-invalid="true"]');
+      mostrarError("Falta completar " + faltan.join(", ").replace(/, ([^,]*)$/, " y $1") + ".");
+      var primero = form.querySelector('[aria-invalid="true"]') ||
+        (!datos.hora && slotsBox.querySelector("input:not(:disabled)"));
       if (primero) primero.focus();
       return;
     }
@@ -493,6 +567,8 @@
 
   document.getElementById("new-booking").addEventListener("click", function () {
     form.reset();
+    form.querySelectorAll(".field-error").forEach(function (el) { el.hidden = true; });
+    form.querySelectorAll("[aria-invalid]").forEach(function (el) { el.removeAttribute("aria-invalid"); });
     slotsBox.innerHTML = "";
     slotsStatus.textContent = "Primero elige un día.";
     done.hidden = true;

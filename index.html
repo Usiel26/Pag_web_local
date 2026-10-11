@@ -13,9 +13,35 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Figtree:wght@400;500;600&display=swap">
-  <link rel="stylesheet" href="css/styles.css?v=2026-10-11c">
-  <script src="js/config.js?v=2026-10-11c" defer></script>
-  <script src="js/main.js?v=2026-10-11c" defer></script>
+  <link rel="stylesheet" href="css/styles.css?v=2026-10-11e">
+  <script src="js/config.js?v=2026-10-11e" defer></script>
+  <script src="js/main.js?v=2026-10-11e" defer></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Los Ficus · Centro de eventos",
+    "description": "Salón de eventos en Ica para bodas, quinceañeros, bautizos, graduaciones y cumpleaños.",
+    "telephone": "+51 941 497 280",
+    "email": "lficussalon@gmail.com",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Cruce de Av. Cutervo",
+      "addressLocality": "Ica",
+      "addressRegion": "Ica",
+      "postalCode": "11004",
+      "addressCountry": "PE"
+    },
+    "geo": { "@type": "GeoCoordinates", "latitude": -14.07749, "longitude": -75.74426 },
+    "hasMap": "https://www.google.com/maps/search/?api=1&query=Local%20de%20eventos%20Los%20Ficus%20-%20Ica&query_place_id=ChIJt3fRGe7iEJERj5vDSEJWeD0",
+    "openingHoursSpecification": [{
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      "opens": "10:00",
+      "closes": "18:00"
+    }]
+  }
+  </script>
 </head>
 <body>
   <a class="skip-link" href="#contenido">Saltar al contenido</a>
@@ -23,8 +49,9 @@
   <header class="site-header">
     <div class="container header-inner">
       <a href="#inicio" class="brand" aria-label="Los Ficus, ir al inicio">
-        <img src="assets/img/logo-los-ficus.webp" alt="Los Ficus, centro de eventos" width="104" height="81">
+        <img src="assets/img/logo-los-ficus-sm.webp" alt="Los Ficus, centro de eventos" width="104" height="81">
       </a>
+      <a href="#reservar" class="btn btn-primary btn-small header-cta">Agendar cita</a>
       <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="menu">
         <span class="nav-toggle-bars" aria-hidden="true"></span>
         <span class="visually-hidden">Abrir menú</span>
@@ -51,7 +78,7 @@
         <h1>Tu celebración en Ica, en un salón a la altura.</h1>
         <p class="hero-lead">Bodas, quinceañeros, bautizos, graduaciones y cumpleaños. Ven a conocer el local y cotiza tu evento sin compromiso.</p>
         <div class="hero-actions">
-          <a href="#reservar" class="btn btn-primary">Agendar una cita</a>
+          <a href="#reservar" class="btn btn-primary">Agendar cita</a>
           <a href="https://wa.me/51941497280" class="btn btn-ghost" data-link="whatsapp" target="_blank" rel="noopener">Escribir por WhatsApp</a>
         </div>
       </div>
@@ -84,6 +111,10 @@
             <li>Ambiente techado para recepción y banquete</li>
             <li>Atención personalizada para organizar tu evento</li>
           </ul>
+          <div class="salon-cta">
+            <p>¿Quieres verlo en persona?</p>
+            <a href="#reservar" class="btn btn-primary">Agendar cita</a>
+          </div>
         </div>
 
         <!-- Galería del salón: la primera foto es la grande. Para agregar fotos,
@@ -93,13 +124,13 @@
             <img src="assets/img/salon-principal-sm.webp" alt="Vista general del salón con lámparas de cristal" width="900" height="507" loading="lazy">
           </button>
           <button type="button" class="s-photo" data-full="assets/img/salon-pista.webp">
-            <img src="assets/img/salon-pista.webp" alt="Pista de baile de mármol blanco con borde negro" width="900" height="1200" loading="lazy">
+            <img src="assets/img/salon-pista-mini.webp" alt="Pista de baile de mármol blanco con borde negro" width="900" height="1200" loading="lazy">
           </button>
           <button type="button" class="s-photo" data-full="assets/img/salon-lamparas.webp">
-            <img src="assets/img/salon-lamparas.webp" alt="Salón decorado para una celebración" width="900" height="1200" loading="lazy">
+            <img src="assets/img/salon-lamparas-mini.webp" alt="Salón decorado para una celebración" width="900" height="1200" loading="lazy">
           </button>
           <button type="button" class="s-photo" data-full="assets/img/salon-escalera.webp">
-            <img src="assets/img/salon-escalera.webp" alt="Salón visto desde la escalera" width="900" height="1200" loading="lazy">
+            <img src="assets/img/salon-escalera-mini.webp" alt="Salón visto desde la escalera" width="900" height="1200" loading="lazy">
           </button>
         </div>
       </div>
@@ -157,22 +188,26 @@
               <legend>Tus datos</legend>
               <div class="field">
                 <label for="nombre">Nombre y apellido</label>
-                <input type="text" id="nombre" name="nombre" autocomplete="name" required maxlength="80">
+                <input type="text" id="nombre" name="nombre" autocomplete="name" required maxlength="80" aria-describedby="nombre-error">
+                <p class="field-error" id="nombre-error" hidden></p>
               </div>
               <div class="field-row">
                 <div class="field">
                   <label for="celular">Celular</label>
-                  <input type="tel" id="celular" name="celular" autocomplete="tel" inputmode="tel" required placeholder="987 654 321" maxlength="15">
+                  <input type="tel" id="celular" name="celular" autocomplete="tel" inputmode="tel" required placeholder="987 654 321" maxlength="15" aria-describedby="celular-error">
+                  <p class="field-error" id="celular-error" hidden></p>
                 </div>
                 <div class="field">
                   <label for="correo">Correo</label>
-                  <input type="email" id="correo" name="correo" autocomplete="email" required maxlength="100">
+                  <input type="email" id="correo" name="correo" autocomplete="email" required maxlength="100" aria-describedby="correo-hint correo-error">
+                  <p class="hint" id="correo-hint">Te enviamos la confirmación aquí.</p>
+                  <p class="field-error" id="correo-error" hidden></p>
                 </div>
               </div>
               <div class="field-row">
                 <div class="field">
                   <label for="tipo">Tipo de evento</label>
-                  <select id="tipo" name="tipoEvento" required>
+                  <select id="tipo" name="tipoEvento" required aria-describedby="tipo-error">
                     <option value="">Selecciona</option>
                     <option>Boda</option>
                     <option>Quinceañero</option>
@@ -181,6 +216,7 @@
                     <option>Graduación</option>
                     <option>Otro</option>
                   </select>
+                  <p class="field-error" id="tipo-error" hidden></p>
                 </div>
                 <div class="field">
                   <label for="invitados">Invitados aprox. <span class="optional">(opcional)</span></label>
@@ -220,7 +256,9 @@
           <h2>Contacto</h2>
           <dl class="contact-list">
             <div><dt>Dirección</dt><dd>Cruce de Av. Cutervo, Ica 11004<br><a href="https://www.google.com/maps/search/?api=1&amp;query=Local%20de%20eventos%20Los%20Ficus%20-%20Ica&amp;query_place_id=ChIJt3fRGe7iEJERj5vDSEJWeD0" target="_blank" rel="noopener">Ver cómo llegar en Google Maps</a></dd></div>
-            <div><dt>Celular</dt><dd><a href="tel:+51941497280">+51 941 497 280</a></dd></div>
+            <div><dt>Celular y WhatsApp</dt><dd><a href="tel:+51941497280">+51 941 497 280</a></dd></div>
+            <!-- TODO: confirmar horario de atención -->
+            <div><dt>Visitas al local (con cita)</dt><dd>Lunes a sábado, 10:00 a 13:00 y 15:00 a 18:00</dd></div>
             <div><dt>Correo</dt><dd><a href="mailto:lficussalon@gmail.com">lficussalon@gmail.com</a></dd></div>
           </dl>
           <div class="social">
@@ -242,8 +280,33 @@
   </main>
 
   <footer class="site-footer">
-    <div class="container footer-inner">
-      <img src="assets/img/logo-los-ficus.webp" alt="" width="78" height="61" loading="lazy">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <img src="assets/img/logo-los-ficus-sm.webp" alt="Los Ficus, centro de eventos" width="104" height="81" loading="lazy">
+        <p>Centro de eventos en Ica para bodas, quinceañeros, bautizos, graduaciones y cumpleaños.</p>
+      </div>
+      <div>
+        <h2 class="footer-title">Contacto</h2>
+        <ul class="footer-list">
+          <li><a href="tel:+51941497280">+51 941 497 280</a></li>
+          <li><a href="https://wa.me/51941497280" data-link="whatsapp" target="_blank" rel="noopener">WhatsApp</a></li>
+          <li><a href="mailto:lficussalon@gmail.com">lficussalon@gmail.com</a></li>
+          <li><a href="https://www.google.com/maps/search/?api=1&amp;query=Local%20de%20eventos%20Los%20Ficus%20-%20Ica&amp;query_place_id=ChIJt3fRGe7iEJERj5vDSEJWeD0" target="_blank" rel="noopener">Cruce de Av. Cutervo, Ica</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="footer-title">Visitas con cita</h2>
+        <p>Lunes a sábado<br>10:00 a 13:00 y 15:00 a 18:00</p>
+        <a href="#reservar" class="footer-link">Agendar cita</a>
+      </div>
+      <div>
+        <h2 class="footer-title">Síguenos</h2>
+        <ul class="footer-list">
+          <li><a href="https://www.instagram.com/" data-link="instagram" target="_blank" rel="noopener">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer-bottom">
       <p>© <span id="year">2026</span> Los Ficus, centro de eventos en Ica, Perú.</p>
     </div>
   </footer>
@@ -264,8 +327,10 @@
     </button>
   </dialog>
 
+  <aside aria-label="Contacto rápido">
   <a href="https://wa.me/51941497280" class="wa-float" data-link="whatsapp" target="_blank" rel="noopener" aria-label="Escríbenos por WhatsApp">
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1.1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.5-.3Z"/></svg>
   </a>
+  </aside>
 </body>
 </html>
