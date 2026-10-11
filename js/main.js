@@ -43,13 +43,46 @@
     }
   });
 
-  /* ---------- Testimonios ---------- */
+  /* ---------- Testimonios con galería ---------- */
+  var MAX_MINIATURAS = 3; // fotos pequeñas bajo la principal
+
+  function normalizarFotos(fotos, t) {
+    return (fotos || []).map(function (f, i) {
+      if (typeof f === "string") f = { src: f };
+      return { src: f.src, alt: f.alt || ("Decoración del evento de " + t.nombre + ", foto " + (i + 1)) };
+    }).filter(function (f) { return f.src; });
+  }
+
+  function crearFoto(foto, indice, total, clase, extra) {
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "t-photo " + clase;
+    btn.dataset.index = indice;
+    btn.setAttribute("aria-label", "Ver foto " + (indice + 1) + " de " + total + " en grande");
+    var img = document.createElement("img");
+    img.src = foto.src;
+    img.alt = foto.alt;
+    img.loading = "lazy";
+    btn.appendChild(img);
+    if (extra) {
+      var mas = document.createElement("span");
+      mas.className = "t-more";
+      mas.textContent = "+" + extra;
+      btn.appendChild(mas);
+    }
+    return btn;
+  }
+
   var testimonios = (CFG.testimonios || []).filter(function (t) { return t && t.texto && t.nombre; });
   if (testimonios.length) {
     var lista = document.getElementById("testimonios-lista");
     testimonios.forEach(function (t) {
+      var fotos = normalizarFotos(t.fotos, t);
+      var art = document.createElement("article");
+      art.className = "testimonial" + (fotos.length ? " has-photos" : "");
+
       var fig = document.createElement("figure");
-      fig.className = "testimonial";
+      fig.className = "t-quote";
       var quote = document.createElement("blockquote");
       var p = document.createElement("p");
       p.textContent = t.texto;
@@ -64,9 +97,89 @@
         cap.appendChild(ev);
       }
       fig.append(quote, cap);
-      lista.appendChild(fig);
+
+      if (fotos.length) {
+        var gal = document.createElement("div");
+        gal.className = "t-gallery";
+        if (fotos.length === 2) {
+          // dos fotos: lado a lado, del mismo tamaño
+          var par = document.createElement("div");
+          par.className = "t-thumbs t-pair";
+          fotos.forEach(function (f, i) { par.appendChild(crearFoto(f, i, 2, "t-thumb")); });
+          gal.appendChild(par);
+        } else {
+          gal.appendChild(crearFoto(fotos[0], 0, fotos.length, "t-main"));
+          var resto = fotos.slice(1, 1 + MAX_MINIATURAS);
+          if (resto.length) {
+            var thumbs = document.createElement("div");
+            thumbs.className = "t-thumbs";
+            thumbs.style.setProperty("--cols", resto.length);
+            resto.forEach(function (f, i) {
+              var ultimo = i === resto.length - 1;
+              var ocultas = fotos.length - 1 - MAX_MINIATURAS;
+              thumbs.appendChild(crearFoto(f, i + 1, fotos.length, "t-thumb", ultimo && ocultas > 0 ? ocultas : 0));
+            });
+            gal.appendChild(thumbs);
+          }
+        }
+        gal.addEventListener("click", function (e) {
+          var b = e.target.closest(".t-photo");
+          if (b) abrirVisor(fotos, Number(b.dataset.index), t);
+        });
+        art.appendChild(gal);
+      }
+      art.appendChild(fig);
+      lista.appendChild(art);
     });
     document.getElementById("testimonios").hidden = false;
+  }
+
+  /* ---------- Visor de fotos ---------- */
+  var visor = document.getElementById("lightbox");
+  var visorImg = document.getElementById("lb-img");
+  var visorCap = document.getElementById("lb-cap");
+  var visorFotos = [], visorIndice = 0, visorTitulo = "", visorOrigen = null;
+
+  function mostrarFoto(i) {
+    visorIndice = (i + visorFotos.length) % visorFotos.length;
+    var f = visorFotos[visorIndice];
+    visorImg.src = f.src;
+    visorImg.alt = f.alt;
+    visorCap.textContent = visorTitulo + " · " + (visorIndice + 1) + " de " + visorFotos.length;
+    visor.classList.toggle("single", visorFotos.length < 2);
+  }
+  function abrirVisor(fotos, i, t) {
+    visorFotos = fotos;
+    visorTitulo = t.evento ? t.nombre + ", " + t.evento : t.nombre;
+    visorOrigen = document.activeElement;
+    mostrarFoto(i);
+    if (typeof visor.showModal === "function") visor.showModal();
+    else visor.setAttribute("open", "");
+  }
+  function cerrarVisor() {
+    if (visor.open) visor.close();
+  }
+  if (visor) {
+    visor.querySelector(".lb-prev").addEventListener("click", function () { mostrarFoto(visorIndice - 1); });
+    visor.querySelector(".lb-next").addEventListener("click", function () { mostrarFoto(visorIndice + 1); });
+    visor.querySelector(".lb-close").addEventListener("click", cerrarVisor);
+    visor.addEventListener("click", function (e) { if (e.target === visor) cerrarVisor(); });
+    visor.addEventListener("close", function () {
+      visorImg.removeAttribute("src");
+      if (visorOrigen) visorOrigen.focus();
+    });
+    visor.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowLeft") mostrarFoto(visorIndice - 1);
+      if (e.key === "ArrowRight") mostrarFoto(visorIndice + 1);
+    });
+    var toqueX = null;
+    visor.addEventListener("touchstart", function (e) { toqueX = e.touches[0].clientX; }, { passive: true });
+    visor.addEventListener("touchend", function (e) {
+      if (toqueX === null) return;
+      var dx = e.changedTouches[0].clientX - toqueX;
+      if (Math.abs(dx) > 50) mostrarFoto(visorIndice + (dx < 0 ? 1 : -1));
+      toqueX = null;
+    });
   }
 
   /* ---------- Agenda de citas ---------- */

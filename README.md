@@ -11,6 +11,7 @@ js/config.js          ← Datos editables: WhatsApp, Instagram, URL de la agenda
 js/main.js            Menú, enlaces y lógica del formulario de citas
 assets/img/           Imágenes optimizadas en WebP
 apps-script/          Script de Google que crea las citas en Google Calendar
+herramientas/         Utilidades (optimizar fotos de testimonios)
 ```
 
 No usa frameworks ni dependencias: HTML, CSS y JavaScript puros.
@@ -32,15 +33,34 @@ Los pasos para configurarla están en [`apps-script/README.md`](apps-script/READ
 
 ## Testimonios
 
-La sección "Lo que dicen nuestros clientes" aparece sola cuando agregas al menos un testimonio en `js/config.js`:
+La sección "Lo que dicen nuestros clientes" aparece sola cuando hay al menos un testimonio en `js/config.js`. Cada testimonio puede llevar una galería con las fotos de la decoración de ese evento. Al tocar una foto, se abre en grande.
+
+**1. Optimiza las fotos del evento.** Las fotos del celular pesan varios MB; esto las reduce a ~150 KB sin que se note:
+
+```
+pip install pillow
+python herramientas/optimizar_fotos.py "C:/Users/tu-usuario/Fotos/boda-maria" boda-maria
+```
+
+Quedan en `assets/img/testimonios/boda-maria/` y el comando imprime la lista de fotos lista para pegar.
+
+**2. Agrega el testimonio en `js/config.js`:**
 
 ```js
 testimonios: [
-  { texto: "Lo que dijo el cliente.", nombre: "María G.", evento: "Boda · marzo 2026" },
+  {
+    texto: "Lo que dijo el cliente.",
+    nombre: "María G.",
+    evento: "Boda · marzo 2026",
+    fotos: [
+      "assets/img/testimonios/boda-maria/01.webp",
+      "assets/img/testimonios/boda-maria/02.webp"
+    ]
+  },
 ]
 ```
 
-Usa solo testimonios reales y con permiso del cliente. Basta con el nombre y la inicial del apellido.
+La primera foto es la grande. Se muestran hasta 4 en el recuadro y el resto se ve en el visor. Usa solo testimonios y fotos reales, con permiso del cliente. Basta con el nombre y la inicial del apellido.
 
 ## Publicar gratis con GitHub Pages
 

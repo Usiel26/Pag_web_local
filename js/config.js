@@ -23,11 +23,17 @@ window.LOS_FICUS_CONFIG = {
   diasMaximos: 60,                   // hasta cuántos días adelante se puede agendar
 
   // Testimonios de clientes reales (con su permiso). La sección solo
-  // aparece en la página cuando hay al menos uno. Ejemplo:
+  // aparece en la página cuando hay al menos uno. "fotos" es opcional:
+  // guarda las fotos de cada evento en su propia carpeta dentro de
+  // assets/img/testimonios/ (ver README). La primera foto es la grande.
   //   {
   //     texto: "Lo que el cliente dijo, en sus palabras.",
   //     nombre: "Nombre A.",
-  //     evento: "Boda · marzo 2026"
+  //     evento: "Boda · marzo 2026",
+  //     fotos: [
+  //       "assets/img/testimonios/boda-nombre/01.webp",
+  //       "assets/img/testimonios/boda-nombre/02.webp"
+  //     ]
   //   },
   testimonios: [
   ]
