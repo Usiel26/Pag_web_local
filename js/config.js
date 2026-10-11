@@ -20,5 +20,15 @@ window.LOS_FICUS_CONFIG = {
   // Apps Script esté conectado, los horarios salen de allí.
   horarios: ["10:00", "11:00", "12:00", "15:00", "16:00", "17:00"],
   diasAtencion: [1, 2, 3, 4, 5, 6], // 0 = domingo, 1 = lunes … 6 = sábado
-  diasMaximos: 60                    // hasta cuántos días adelante se puede agendar
+  diasMaximos: 60,                   // hasta cuántos días adelante se puede agendar
+
+  // Testimonios de clientes reales (con su permiso). La sección solo
+  // aparece en la página cuando hay al menos uno. Ejemplo:
+  //   {
+  //     texto: "Lo que el cliente dijo, en sus palabras.",
+  //     nombre: "Nombre A.",
+  //     evento: "Boda · marzo 2026"
+  //   },
+  testimonios: [
+  ]
 };

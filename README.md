@@ -30,6 +30,18 @@ Para verlo en tu celular, conéctalo a la misma red wifi y abre la IP que muestr
 
 Los pasos para configurarla están en [`apps-script/README.md`](apps-script/README.md).
 
+## Testimonios
+
+La sección "Lo que dicen nuestros clientes" aparece sola cuando agregas al menos un testimonio en `js/config.js`:
+
+```js
+testimonios: [
+  { texto: "Lo que dijo el cliente.", nombre: "María G.", evento: "Boda · marzo 2026" },
+]
+```
+
+Usa solo testimonios reales y con permiso del cliente. Basta con el nombre y la inicial del apellido.
+
 ## Publicar gratis con GitHub Pages
 
 1. En el repositorio, ve a **Settings → Pages**.
@@ -44,4 +56,5 @@ Más adelante se puede conectar un dominio propio, por ejemplo `losficus.pe`.
 - [x] WhatsApp y celular confirmados: 941 497 280.
 - [ ] Dirección exacta y ubicación del mapa.
 - [ ] Datos del salón: capacidad, servicios incluidos y estacionamiento (sección "El salón" en `index.html`).
+- [ ] Testimonios reales de clientes (`js/config.js`).
 - [ ] Fotos de eventos reales y una foto de portada con el salón terminado.

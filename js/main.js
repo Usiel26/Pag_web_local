@@ -43,6 +43,32 @@
     }
   });
 
+  /* ---------- Testimonios ---------- */
+  var testimonios = (CFG.testimonios || []).filter(function (t) { return t && t.texto && t.nombre; });
+  if (testimonios.length) {
+    var lista = document.getElementById("testimonios-lista");
+    testimonios.forEach(function (t) {
+      var fig = document.createElement("figure");
+      fig.className = "testimonial";
+      var quote = document.createElement("blockquote");
+      var p = document.createElement("p");
+      p.textContent = t.texto;
+      quote.appendChild(p);
+      var cap = document.createElement("figcaption");
+      var nombre = document.createElement("strong");
+      nombre.textContent = t.nombre;
+      cap.appendChild(nombre);
+      if (t.evento) {
+        var ev = document.createElement("span");
+        ev.textContent = t.evento;
+        cap.appendChild(ev);
+      }
+      fig.append(quote, cap);
+      lista.appendChild(fig);
+    });
+    document.getElementById("testimonios").hidden = false;
+  }
+
   /* ---------- Agenda de citas ---------- */
   var form = document.getElementById("booking-form");
   var fechaInput = document.getElementById("fecha-cita");
