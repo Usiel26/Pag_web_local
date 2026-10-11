@@ -14,7 +14,7 @@ window.LOS_FICUS_CONFIG = {
   // URL del Web App de Google Apps Script (ver apps-script/README.md).
   // Mientras esté vacía, las citas se envían por WhatsApp en lugar de
   // ir directo al Google Calendar.
-  appsScriptUrl: "",
+  appsScriptUrl: "https://script.google.com/macros/s/AKfycbwQBcLiyDNJ1Vf6cSV4cmDKN1UkcPQ2dZu3ZaWLG0l-f0R4KsrqrSciY1ROxOBYIIBo/exec",
 
   // Solo se usan mientras appsScriptUrl esté vacía. Cuando el
   // Apps Script esté conectado, los horarios salen de allí.
