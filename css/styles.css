@@ -12,7 +12,7 @@
   --tinta: #1c241b;        /* texto principal */
   --papel: #f4f6f1;        /* fondo general */
   --marmol: #e2e6de;       /* fondos suaves y bordes */
-  --gris: #5d6859;         /* texto secundario */
+  --gris: #535e50;         /* texto secundario */
   --error: #a3312a;
 
   --font-display: "Marcellus", Georgia, serif;
@@ -201,6 +201,43 @@ a:hover { color: var(--ficus-deep); }
 .section-tint { background: var(--marmol); }
 .section-deep { background: var(--ficus); color: #eef3ea; }
 .section-deep h2 { color: #fff; }
+
+/* ---------- Fondos decorativos: ramas de ficus tono sobre tono ---------- */
+.section { position: relative; }
+.section > .container { position: relative; z-index: 1; }
+.deco {
+  position: absolute; inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.deco::before {
+  content: "";
+  position: absolute;
+  background: no-repeat center / contain;
+}
+.deco-salon::before {
+  background-image: url("../assets/img/deco/ficus-rama-clara.svg");
+  width: 200px; aspect-ratio: 520 / 640;
+  right: -48px; top: -8px;
+  transform: scale(-1, -1); /* en celular cuelga desde arriba a la derecha */
+}
+.deco-eventos::before {
+  background-image: url("../assets/img/deco/ficus-arbol.svg");
+  width: clamp(240px, 36vw, 500px); aspect-ratio: 740 / 820;
+  right: -70px; bottom: 0;
+}
+.deco-galeria::before {
+  background-image: url("../assets/img/deco/ficus-rama-galeria.svg");
+  width: clamp(190px, 28vw, 400px); aspect-ratio: 560 / 520;
+  right: -24px; top: 0;
+}
+.deco-reserva::before {
+  background-image: url("../assets/img/deco/ficus-rama-verde.svg");
+  width: 320px; aspect-ratio: 640 / 760;
+  right: -150px; top: -40px;
+  transform: scaleX(-1);
+}
 
 .split { display: grid; gap: 2.5rem; align-items: center; }
 
@@ -399,6 +436,16 @@ input:focus, select:focus, textarea:focus { border-color: var(--ficus); outline:
   .gallery .g-wide { grid-column: 1 / -1; aspect-ratio: 21 / 9; }
   .booking { grid-template-columns: 0.8fr 1.2fr; gap: 4rem; align-items: start; }
   .booking-intro { position: sticky; top: calc(var(--header-h) + 2rem); }
+  .deco-salon::before {
+    width: clamp(260px, 30vw, 420px);
+    left: -48px; right: auto; top: auto; bottom: -8px;
+    transform: none;
+  }
+  .deco-reserva::before {
+    width: clamp(300px, 36vw, 540px);
+    left: -60px; right: auto; top: auto; bottom: -40px;
+    transform: none;
+  }
   .map iframe { height: 420px; }
 }
 
