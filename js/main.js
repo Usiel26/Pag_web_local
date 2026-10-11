@@ -124,7 +124,7 @@
         }
         gal.addEventListener("click", function (e) {
           var b = e.target.closest(".t-photo");
-          if (b) abrirVisor(fotos, Number(b.dataset.index), t);
+          if (b) abrirVisor(fotos, Number(b.dataset.index), t.evento ? t.nombre + ", " + t.evento : t.nombre);
         });
         art.appendChild(gal);
       }
@@ -214,9 +214,9 @@
     visorCap.textContent = visorTitulo + " · " + (visorIndice + 1) + " de " + visorFotos.length;
     visor.classList.toggle("single", visorFotos.length < 2);
   }
-  function abrirVisor(fotos, i, t) {
+  function abrirVisor(fotos, i, titulo) {
     visorFotos = fotos;
-    visorTitulo = t.evento ? t.nombre + ", " + t.evento : t.nombre;
+    visorTitulo = titulo;
     visorOrigen = document.activeElement;
     mostrarFoto(i);
     if (typeof visor.showModal === "function") visor.showModal();
@@ -225,6 +225,20 @@
   function cerrarVisor() {
     if (visor.open) visor.close();
   }
+  var galeriaSalon = document.getElementById("galeria");
+  if (galeriaSalon) {
+    var botonesSalon = Array.prototype.slice.call(galeriaSalon.querySelectorAll(".s-photo"));
+    var fotosSalon = botonesSalon.map(function (btn, i) {
+      var img = btn.querySelector("img");
+      btn.setAttribute("aria-label", "Ver foto " + (i + 1) + " de " + botonesSalon.length + " en grande: " + img.alt);
+      return { src: btn.dataset.full || img.src, alt: img.alt };
+    });
+    galeriaSalon.addEventListener("click", function (e) {
+      var b = e.target.closest(".s-photo");
+      if (b) abrirVisor(fotosSalon, botonesSalon.indexOf(b), "El salón");
+    });
+  }
+
   if (visor) {
     visor.querySelector(".lb-prev").addEventListener("click", function () { mostrarFoto(visorIndice - 1); });
     visor.querySelector(".lb-next").addEventListener("click", function () { mostrarFoto(visorIndice + 1); });

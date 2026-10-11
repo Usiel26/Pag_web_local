@@ -76,6 +76,3 @@ def tree(fill, vein):
     return "".join(parts)
 
 write("ficus-arbol.svg", tree("#d3dacd", "#e2e6de"))
-write("ficus-rama-galeria.svg", branch(
-    560, 520, [(560, 20), (380, 40), (230, 160), (150, 430)], 10,
-    fill="#e3e9dd", vein="#f4f6f1"))

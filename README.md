@@ -5,7 +5,7 @@ Sitio web del salón de eventos Los Ficus (Ica, Perú). Es una sola página resp
 ## Estructura
 
 ```
-index.html            Página única: inicio, salón, eventos, galería, agenda y contacto
+index.html            Página única: inicio, eventos, el salón (con galería), testimonios, agenda y contacto
 css/styles.css        Estilos (mobile-first)
 js/config.js          ← Datos editables: WhatsApp, Instagram, URL de la agenda, horarios
 js/main.js            Menú, enlaces y lógica del formulario de citas
@@ -37,6 +37,10 @@ El navegador guarda copias de los archivos. Si después de un Pull no ves lo úl
 - **Configurada**: la cita se crea directamente en Google Calendar, se bloquea ese horario y el cliente recibe un correo de confirmación.
 
 Los pasos para configurarla están en [`apps-script/README.md`](apps-script/README.md).
+
+## Fotos del salón
+
+La galería está en la sección "El salón" de `index.html`. Para agregar una foto, copia uno de los `<button class="s-photo">`, cambia la imagen y su descripción (`alt`). La primera foto es la grande. Optimiza las fotos antes con `herramientas/optimizar_fotos.py`.
 
 ## Testimonios
 

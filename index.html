@@ -13,9 +13,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Figtree:wght@400;500;600&display=swap">
-  <link rel="stylesheet" href="css/styles.css?v=2026-10-11b">
-  <script src="js/config.js?v=2026-10-11b" defer></script>
-  <script src="js/main.js?v=2026-10-11b" defer></script>
+  <link rel="stylesheet" href="css/styles.css?v=2026-10-11c">
+  <script src="js/config.js?v=2026-10-11c" defer></script>
+  <script src="js/main.js?v=2026-10-11c" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#contenido">Saltar al contenido</a>
@@ -33,7 +33,6 @@
         <ul>
           <li><a href="#eventos">Eventos</a></li>
           <li><a href="#salon">El salón</a></li>
-          <li><a href="#galeria">Galería</a></li>
           <li data-nav="testimonios"><a href="#testimonios">Testimonios</a></li>
           <li><a href="#contacto">Contacto</a></li>
           <li><a href="#reservar" class="btn btn-primary btn-small">Agendar cita</a></li>
@@ -74,8 +73,8 @@
 
     <section id="salon" class="section">
       <div class="deco deco-salon" aria-hidden="true"></div>
-      <div class="container split">
-        <div>
+      <div class="container salon">
+        <div class="salon-text">
           <h2>El salón</h2>
           <p>Los Ficus es un centro de eventos familiar en Ica. Tenemos un salón amplio con pista de baile de mármol, techos iluminados y lámparas de cristal, pensado para que tu evento luzca desde la entrada hasta el último baile.</p>
           <!-- TODO: completar con datos reales (capacidad, estacionamiento, servicios incluidos) -->
@@ -86,21 +85,22 @@
             <li>Atención personalizada para organizar tu evento</li>
           </ul>
         </div>
-        <figure class="framed">
-          <img src="assets/img/salon-pista.webp" alt="Pista de baile de mármol blanco con borde negro" width="900" height="1200" loading="lazy">
-        </figure>
-      </div>
-    </section>
 
-    <section id="galeria" class="section">
-      <div class="deco deco-galeria" aria-hidden="true"></div>
-      <div class="container">
-        <h2>Galería</h2>
-        <div class="gallery">
-          <img src="assets/img/salon-principal-sm.webp" alt="Vista general del salón con lámparas" width="900" height="507" loading="lazy" class="g-wide">
-          <img src="assets/img/salon-escalera.webp" alt="Salón visto desde la escalera" width="900" height="1200" loading="lazy">
-          <img src="assets/img/salon-lamparas.webp" alt="Salón decorado para una celebración" width="900" height="1200" loading="lazy">
-          <img src="assets/img/salon-pista.webp" alt="Detalle del piso de mármol y la pista" width="900" height="1200" loading="lazy">
+        <!-- Galería del salón: la primera foto es la grande. Para agregar fotos,
+             copia un <button> y cambia la imagen; data-full es la versión grande. -->
+        <div class="salon-gallery" id="galeria">
+          <button type="button" class="s-photo s-main" data-full="assets/img/salon-principal.webp">
+            <img src="assets/img/salon-principal-sm.webp" alt="Vista general del salón con lámparas de cristal" width="900" height="507" loading="lazy">
+          </button>
+          <button type="button" class="s-photo" data-full="assets/img/salon-pista.webp">
+            <img src="assets/img/salon-pista.webp" alt="Pista de baile de mármol blanco con borde negro" width="900" height="1200" loading="lazy">
+          </button>
+          <button type="button" class="s-photo" data-full="assets/img/salon-lamparas.webp">
+            <img src="assets/img/salon-lamparas.webp" alt="Salón decorado para una celebración" width="900" height="1200" loading="lazy">
+          </button>
+          <button type="button" class="s-photo" data-full="assets/img/salon-escalera.webp">
+            <img src="assets/img/salon-escalera.webp" alt="Salón visto desde la escalera" width="900" height="1200" loading="lazy">
+          </button>
         </div>
       </div>
     </section>
