@@ -76,5 +76,5 @@ Más adelante se puede conectar un dominio propio, por ejemplo `losficus.pe`.
 - [x] WhatsApp y celular confirmados: 941 497 280.
 - [ ] Dirección exacta y ubicación del mapa.
 - [ ] Datos del salón: capacidad, servicios incluidos y estacionamiento (sección "El salón" en `index.html`).
-- [ ] Testimonios reales de clientes (`js/config.js`).
+- [ ] Reemplazar los testimonios de ejemplo por reales (`js/config.js`) y borrar `assets/img/testimonios/ejemplo-*`.
 - [ ] Fotos de eventos reales y una foto de portada con el salón terminado.

@@ -36,5 +36,44 @@ window.LOS_FICUS_CONFIG = {
   //     ]
   //   },
   testimonios: [
+    // ===== EJEMPLOS PARA PROBAR EL DISEÑO: BORRAR ANTES DE PUBLICAR =====
+    {
+      texto: "(Ejemplo) Celebramos nuestra boda en Los Ficus y todo salió como lo imaginamos. La decoración, la pista y la atención del equipo hicieron que nuestros invitados no dejaran de bailar.",
+      nombre: "Cliente de ejemplo",
+      evento: "Boda · ejemplo",
+      fotos: [
+        "assets/img/testimonios/ejemplo-boda/01.webp",
+        "assets/img/salon-principal-sm.webp",
+        "assets/img/salon-pista.webp",
+        "assets/img/salon-lamparas.webp",
+        "assets/img/salon-escalera.webp"
+      ]
+    },
+    {
+      texto: "(Ejemplo) El quinceañero de mi hija fue precioso. Nos ayudaron con la decoración en rosado y el salón se veía elegante desde la entrada.",
+      nombre: "Cliente de ejemplo",
+      evento: "Quinceañero · ejemplo",
+      fotos: [
+        "assets/img/testimonios/ejemplo-quince/01.webp",
+        "assets/img/testimonios/ejemplo-quince/02.webp",
+        "assets/img/salon-lamparas.webp"
+      ]
+    },
+    {
+      texto: "(Ejemplo) Hicimos el bautizo de nuestro hijo con toda la familia. Espacio amplio, cómodo y muy bien atendido.",
+      nombre: "Cliente de ejemplo",
+      evento: "Bautizo · ejemplo",
+      fotos: [
+        "assets/img/testimonios/ejemplo-bautizo/01.webp",
+        "assets/img/salon-escalera.webp"
+      ]
+    },
+    {
+      texto: "(Ejemplo) Nuestra fiesta de promoción fue un éxito. Cabía toda la promoción con sus familias y la música se escuchaba perfecto.",
+      nombre: "Cliente de ejemplo",
+      evento: "Graduación · ejemplo",
+      fotos: ["assets/img/testimonios/ejemplo-graduacion/01.webp"]
+    }
+    // ===== FIN DE LOS EJEMPLOS =====
   ]
 };
