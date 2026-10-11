@@ -105,7 +105,7 @@
     slotsStatus.classList.toggle("is-error", libres === 0);
     slotsStatus.textContent = libres === 0
       ? "No quedan horarios libres ese día. Prueba con otra fecha."
-      : "Elige una hora. Cada cita dura alrededor de una hora.";
+      : "Elige una hora.";
   }
 
   function slotsLocales(fecha) {
