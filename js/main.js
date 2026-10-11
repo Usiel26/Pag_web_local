@@ -134,6 +134,10 @@
     });
     document.getElementById("testimonios").hidden = false;
     iniciarCarrusel(lista);
+  } else {
+    // sin testimonios: quitar el enlace del menú
+    var navT = document.querySelector('[data-nav="testimonios"]');
+    if (navT) navT.remove();
   }
 
   /* ---------- Carrusel de testimonios ---------- */

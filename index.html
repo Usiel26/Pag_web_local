@@ -13,9 +13,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Figtree:wght@400;500;600&display=swap">
-  <link rel="stylesheet" href="css/styles.css?v=2026-10-11">
-  <script src="js/config.js?v=2026-10-11" defer></script>
-  <script src="js/main.js?v=2026-10-11" defer></script>
+  <link rel="stylesheet" href="css/styles.css?v=2026-10-11b">
+  <script src="js/config.js?v=2026-10-11b" defer></script>
+  <script src="js/main.js?v=2026-10-11b" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#contenido">Saltar al contenido</a>
@@ -31,9 +31,10 @@
       </button>
       <nav id="menu" class="site-nav" aria-label="Principal">
         <ul>
-          <li><a href="#salon">El salón</a></li>
           <li><a href="#eventos">Eventos</a></li>
+          <li><a href="#salon">El salón</a></li>
           <li><a href="#galeria">Galería</a></li>
+          <li data-nav="testimonios"><a href="#testimonios">Testimonios</a></li>
           <li><a href="#contacto">Contacto</a></li>
           <li><a href="#reservar" class="btn btn-primary btn-small">Agendar cita</a></li>
         </ul>
@@ -57,6 +58,20 @@
       </div>
     </section>
 
+    <section id="eventos" class="section section-tint">
+      <div class="deco deco-eventos" aria-hidden="true"></div>
+      <div class="container">
+        <h2>Eventos que celebramos</h2>
+        <dl class="event-list">
+          <div><dt>Bodas</dt><dd>Recepción, banquete y fiesta en un mismo espacio.</dd></div>
+          <div><dt>Quinceañeros y cumpleaños</dt><dd>Decoración a tu medida y pista para el vals.</dd></div>
+          <div><dt>Bautizos y primeras comuniones</dt><dd>Reuniones familiares con todo resuelto.</dd></div>
+          <div><dt>Graduaciones</dt><dd>Fiestas de promoción para colegios e institutos.</dd></div>
+        </dl>
+        <p class="note">¿Tienes otro tipo de evento? <a href="https://wa.me/51941497280" data-link="whatsapp" target="_blank" rel="noopener">Cuéntanos por WhatsApp</a>.</p>
+      </div>
+    </section>
+
     <section id="salon" class="section">
       <div class="deco deco-salon" aria-hidden="true"></div>
       <div class="container split">
@@ -74,20 +89,6 @@
         <figure class="framed">
           <img src="assets/img/salon-pista.webp" alt="Pista de baile de mármol blanco con borde negro" width="900" height="1200" loading="lazy">
         </figure>
-      </div>
-    </section>
-
-    <section id="eventos" class="section section-tint">
-      <div class="deco deco-eventos" aria-hidden="true"></div>
-      <div class="container">
-        <h2>Eventos que celebramos</h2>
-        <dl class="event-list">
-          <div><dt>Bodas</dt><dd>Recepción, banquete y fiesta en un mismo espacio.</dd></div>
-          <div><dt>Quinceañeros y cumpleaños</dt><dd>Decoración a tu medida y pista para el vals.</dd></div>
-          <div><dt>Bautizos y primeras comuniones</dt><dd>Reuniones familiares con todo resuelto.</dd></div>
-          <div><dt>Graduaciones</dt><dd>Fiestas de promoción para colegios e institutos.</dd></div>
-        </dl>
-        <p class="note">¿Tienes otro tipo de evento? <a href="https://wa.me/51941497280" data-link="whatsapp" target="_blank" rel="noopener">Cuéntanos por WhatsApp</a>.</p>
       </div>
     </section>
 

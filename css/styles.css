@@ -199,6 +199,8 @@ a:hover { color: var(--ficus-deep); }
 /* ---------- Secciones ---------- */
 .section { padding-block: clamp(3.5rem, 9vw, 6.5rem); }
 .section-tint { background: var(--marmol); }
+/* El salón y la Galería comparten fondo: se leen como un solo bloque */
+#salon + #galeria { padding-top: 0; }
 .section-deep { background: var(--ficus); color: #eef3ea; }
 .section-deep h2 { color: #fff; }
 
