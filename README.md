@@ -24,6 +24,13 @@ No usa frameworks ni dependencias: HTML, CSS y JavaScript puros.
 
 Para verlo en tu celular, conéctalo a la misma red wifi y abre la IP que muestra Live Server.
 
+## Si no ves los cambios
+
+El navegador guarda copias de los archivos. Si después de un Pull no ves lo último:
+
+1. Recarga forzando: **Ctrl + F5** (o **Ctrl + Shift + R**).
+2. Al publicar cambios en CSS o JS, sube el número `?v=...` en `index.html`. Por ejemplo, cambia `styles.css?v=2026-10-11` a `styles.css?v=2026-10-12`.
+
 ## Agenda de citas
 
 - **Sin configurar** (`appsScriptUrl` vacío): el formulario arma un mensaje de WhatsApp con los datos de la cita.
