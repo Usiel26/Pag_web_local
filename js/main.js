@@ -129,9 +129,71 @@
         art.appendChild(gal);
       }
       art.appendChild(fig);
+      art.setAttribute("aria-roledescription", "testimonio");
       lista.appendChild(art);
     });
     document.getElementById("testimonios").hidden = false;
+    iniciarCarrusel(lista);
+  }
+
+  /* ---------- Carrusel de testimonios ---------- */
+  function iniciarCarrusel(track) {
+    var slides = Array.prototype.slice.call(track.children);
+    var prev = document.getElementById("t-prev");
+    var next = document.getElementById("t-next");
+    var dotsBox = document.getElementById("t-dots");
+    var total = slides.length;
+
+    slides.forEach(function (sl, i) { sl.setAttribute("aria-label", (i + 1) + " de " + total); });
+
+    if (total < 2) {
+      document.querySelector(".t-nav").hidden = true;
+      return;
+    }
+
+    var dots = slides.map(function (sl, i) {
+      var d = document.createElement("button");
+      d.type = "button";
+      d.className = "t-dot";
+      d.setAttribute("aria-label", "Ir al testimonio " + (i + 1));
+      d.addEventListener("click", function () { ir(i); });
+      dotsBox.appendChild(d);
+      return d;
+    });
+
+    function actual() {
+      return Math.round(track.scrollLeft / track.clientWidth);
+    }
+    function ir(i) {
+      i = Math.max(0, Math.min(total - 1, i));
+      track.scrollTo({ left: i * track.clientWidth, behavior: "smooth" });
+    }
+    function actualizar() {
+      var i = actual();
+      prev.disabled = i <= 0;
+      next.disabled = i >= total - 1;
+      dots.forEach(function (d, k) {
+        d.classList.toggle("is-active", k === i);
+        if (k === i) d.setAttribute("aria-current", "true");
+        else d.removeAttribute("aria-current");
+      });
+      slides.forEach(function (sl, k) { sl.inert = k !== i; });
+    }
+
+    prev.addEventListener("click", function () { ir(actual() - 1); });
+    next.addEventListener("click", function () { ir(actual() + 1); });
+    track.addEventListener("keydown", function (e) {
+      if (e.target !== track) return;
+      if (e.key === "ArrowLeft") { e.preventDefault(); ir(actual() - 1); }
+      if (e.key === "ArrowRight") { e.preventDefault(); ir(actual() + 1); }
+    });
+    var espera;
+    track.addEventListener("scroll", function () {
+      clearTimeout(espera);
+      espera = setTimeout(actualizar, 60);
+    }, { passive: true });
+    window.addEventListener("resize", function () { ir(actual()); });
+    actualizar();
   }
 
   /* ---------- Visor de fotos ---------- */

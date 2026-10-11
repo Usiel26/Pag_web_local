@@ -106,8 +106,19 @@
 
     <section id="testimonios" class="section section-tint" hidden>
       <div class="container">
-        <h2>Lo que dicen nuestros clientes</h2>
-        <div class="testimonials" id="testimonios-lista"></div>
+        <div class="t-header">
+          <h2 id="testimonios-titulo">Lo que dicen nuestros clientes</h2>
+          <div class="t-nav">
+            <button type="button" class="t-arrow" id="t-prev" aria-label="Testimonio anterior">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+            </button>
+            <button type="button" class="t-arrow" id="t-next" aria-label="Testimonio siguiente">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="testimonials" id="testimonios-lista" role="region" aria-roledescription="carrusel" aria-labelledby="testimonios-titulo" tabindex="0"></div>
+        <div class="t-dots" id="t-dots"></div>
       </div>
     </section>
 

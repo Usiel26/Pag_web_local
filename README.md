@@ -60,7 +60,7 @@ testimonios: [
 ]
 ```
 
-La primera foto es la grande. Se muestran hasta 4 en el recuadro y el resto se ve en el visor. Usa solo testimonios y fotos reales, con permiso del cliente. Basta con el nombre y la inicial del apellido.
+La primera foto es la grande. Se muestran hasta 4 en el recuadro y el resto se ve en el visor. Los testimonios aparecen de uno en uno y se pasan con las flechas o deslizando en celular. Usa solo testimonios y fotos reales, con permiso del cliente. Basta con el nombre y la inicial del apellido.
 
 ## Publicar gratis con GitHub Pages
 

@@ -299,13 +299,44 @@ a:hover { color: var(--ficus-deep); }
 
 /* ---------- Testimonios con galería ---------- */
 .section[hidden] { display: none; }
-.testimonials {
-  display: grid;
-  gap: clamp(1.5rem, 4vw, 2.5rem);
-  margin-top: 0.5rem;
+.t-header {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
 }
+.t-header h2 { margin: 0; }
+.t-nav { display: flex; gap: 0.5rem; flex-shrink: 0; }
+.t-nav[hidden] { display: none; }
+.t-arrow {
+  display: grid; place-items: center;
+  width: 48px; height: 48px;
+  border: 1.5px solid var(--ficus); border-radius: 50%;
+  background: transparent; color: var(--ficus);
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, opacity 0.2s;
+}
+.t-arrow:hover:not(:disabled) { background: var(--ficus); color: #fff; }
+.t-arrow:disabled { opacity: 0.3; cursor: default; }
+.t-arrow svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Carril horizontal: un testimonio a la vez, se puede deslizar */
+.testimonials {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  border-radius: var(--radius);
+}
+.testimonials::-webkit-scrollbar { display: none; }
+.testimonials:focus-visible { outline: 3px solid var(--hoja); outline-offset: 4px; }
 .testimonial {
+  flex: 0 0 100%;
+  min-width: 0;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
   display: grid;
+  align-content: center;
   gap: 1.5rem;
   padding: clamp(1rem, 3vw, 1.5rem);
   background: var(--papel);
@@ -342,7 +373,21 @@ a:hover { color: var(--ficus-deep); }
 }
 .t-quote figcaption span { color: var(--gris); }
 
-.t-gallery { display: grid; gap: 0.5rem; }
+.t-gallery { display: grid; gap: 0.5rem; align-content: start; min-width: 0; }
+.t-quote, .t-thumbs { min-width: 0; }
+
+.t-dots { display: flex; justify-content: center; gap: 0.25rem; margin-top: 1rem; }
+.t-dot {
+  width: 28px; height: 28px;
+  display: grid; place-items: center;
+  padding: 0; border: 0; background: none; cursor: pointer;
+}
+.t-dot::before {
+  content: ""; width: 8px; height: 8px; border-radius: 50%;
+  background: #b4bdae;
+  transition: width 0.25s, background-color 0.25s;
+}
+.t-dot.is-active::before { width: 22px; border-radius: 4px; background: var(--ficus); }
 .t-thumbs { display: grid; grid-template-columns: repeat(var(--cols, 3), 1fr); gap: 0.5rem; }
 .t-pair { --cols: 2; }
 .t-pair .t-thumb { aspect-ratio: 4 / 5; }
@@ -565,8 +610,6 @@ input:focus, select:focus, textarea:focus { border-color: var(--ficus); outline:
     gap: 2.5rem;
     align-items: center;
   }
-  .testimonial.has-photos:nth-child(even) { grid-template-columns: 0.85fr 1.15fr; }
-  .testimonial.has-photos:nth-child(even) .t-gallery { order: 2; }
   .testimonial .t-quote { padding: 2.5rem 1rem 1rem; }
   .deco-salon::before {
     width: clamp(260px, 30vw, 420px);
