@@ -8,20 +8,19 @@ Es gratis y no necesita servidor ni API key.
 
 1. Inicia sesión con la cuenta de Los Ficus y entra a <https://script.google.com>. Crea un **Nuevo proyecto** y ponle de nombre `Agenda Los Ficus`.
 2. Borra el contenido de `Código.gs` y pega todo el contenido de [`Code.gs`](Code.gs).
-3. Configura el manifiesto:
-   - Ve a **Configuración del proyecto** (ícono de engranaje) y activa *Mostrar el archivo de manifiesto "appsscript.json"*.
-   - Vuelve al editor, abre `appsscript.json` y reemplázalo con el de esta carpeta.
-4. Da los permisos:
+3. Da los permisos:
    - En el editor, elige la función `autorizar` en el menú desplegable y pulsa **Ejecutar**.
    - Acepta los permisos de Calendar y Gmail. Si aparece "Google no verificó esta app", entra a *Configuración avanzada* y luego a *Ir a Agenda Los Ficus*. Es normal porque el script es tuyo.
-5. Publícalo:
+4. Publícalo:
    - Pulsa **Implementar → Nueva implementación**, elige el tipo **Aplicación web** y configura:
      - *Ejecutar como*: **Yo** (la cuenta de Los Ficus)
      - *Quién tiene acceso*: **Cualquier usuario**
    - Pulsa **Implementar** y copia la **URL de la aplicación web**. Termina en `/exec`.
-6. Pega esa URL en `js/config.js`, dentro de `appsScriptUrl: ""`, y sube el cambio.
+5. Pega esa URL en `js/config.js`, dentro de `appsScriptUrl: ""`, y sube el cambio.
 
 Para probar que funciona, abre `TU_URL/exec?accion=disponibilidad&fecha=2026-10-17` en el navegador. Debe devolver la lista de horarios.
+
+El archivo `appsscript.json` de esta carpeta es opcional: Google detecta los permisos solo.
 
 ## Cambiar horarios o días de atención
 
