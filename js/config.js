@@ -36,44 +36,44 @@ window.LOS_FICUS_CONFIG = {
   //     ]
   //   },
   testimonios: [
-    // ===== EJEMPLOS PARA PROBAR EL DISEÑO: BORRAR ANTES DE PUBLICAR =====
+    // Vacío a propósito: la sección aparece sola cuando agregas el primero.
+    // Los ejemplos anteriores usaban fotos de otros locales y no deben
+    // publicarse. Usa el formato de arriba con fotos de eventos reales.
+  ],
+
+  // Ficha del salón. Cada dato aparece en "El salón por dentro" solo cuando
+  // tiene "valor". Completa con datos reales; no inventes cifras.
+  ficha: [
+    { dato: "Capacidad", valor: "" },        // p. ej. "Hasta 250 invitados sentados"
+    { dato: "Área del salón", valor: "" },   // p. ej. "400 m²"
+    { dato: "Estacionamiento", valor: "" },  // p. ej. "Para 20 autos"
+    { dato: "Incluye", valor: "" }           // p. ej. "Mesas, sillas, mantelería y sonido"
+  ],
+
+  // Preguntas frecuentes. Solo se muestran las que tienen "respuesta".
+  // Las vacías son las preguntas que más hacen los clientes: complétalas.
+  preguntas: [
     {
-      texto: "(Ejemplo) Celebramos nuestra boda en Los Ficus y todo salió como lo imaginamos. La decoración, la pista y la atención del equipo hicieron que nuestros invitados no dejaran de bailar.",
-      nombre: "Cliente de ejemplo",
-      evento: "Boda · ejemplo",
-      fotos: [
-        "assets/img/testimonios/ejemplo-boda/01.webp",
-        "assets/img/salon-principal-sm.webp",
-        "assets/img/salon-pista.webp",
-        "assets/img/salon-lamparas.webp",
-        "assets/img/salon-escalera.webp"
-      ]
+      pregunta: "¿Puedo ver el salón antes de reservar?",
+      respuesta: "Sí. Agenda una visita en esta página o escríbenos por WhatsApp. Te atendemos de lunes a sábado, de 10:00 a 13:00 y de 15:00 a 18:00."
     },
     {
-      texto: "(Ejemplo) El quinceañero de mi hija fue precioso. Nos ayudaron con la decoración en rosado y el salón se veía elegante desde la entrada.",
-      nombre: "Cliente de ejemplo",
-      evento: "Quinceañero · ejemplo",
-      fotos: [
-        "assets/img/testimonios/ejemplo-quince/01.webp",
-        "assets/img/testimonios/ejemplo-quince/02.webp",
-        "assets/img/salon-lamparas.webp"
-      ]
+      pregunta: "¿Cómo cotizo mi evento?",
+      respuesta: "En la visita revisamos contigo la fecha, el número de invitados y lo que necesitas, y te damos la cotización. Si prefieres, adelántanos esos datos por WhatsApp."
     },
     {
-      texto: "(Ejemplo) Hicimos el bautizo de nuestro hijo con toda la familia. Espacio amplio, cómodo y muy bien atendido.",
-      nombre: "Cliente de ejemplo",
-      evento: "Bautizo · ejemplo",
-      fotos: [
-        "assets/img/testimonios/ejemplo-bautizo/01.webp",
-        "assets/img/salon-escalera.webp"
-      ]
+      pregunta: "¿Qué eventos realizan?",
+      respuesta: "Bodas, quinceañeros, bautizos, primeras comuniones, fiestas de promoción, cumpleaños y aniversarios. Si tu evento es otro, cuéntanos."
     },
     {
-      texto: "(Ejemplo) Nuestra fiesta de promoción fue un éxito. Cabía toda la promoción con sus familias y la música se escuchaba perfecto.",
-      nombre: "Cliente de ejemplo",
-      evento: "Graduación · ejemplo",
-      fotos: ["assets/img/testimonios/ejemplo-graduacion/01.webp"]
-    }
-    // ===== FIN DE LOS EJEMPLOS =====
+      pregunta: "¿Dónde queda el local?",
+      respuesta: "En el cruce de la Av. Cutervo, en Ica. En la sección Cómo llegar tienes el mapa y el enlace a Google Maps."
+    },
+    { pregunta: "¿Cuántos invitados entran en el salón?", respuesta: "" },
+    { pregunta: "¿Qué incluye el alquiler del local?", respuesta: "" },
+    { pregunta: "¿Puedo traer mi propio catering, decoración o DJ?", respuesta: "" },
+    { pregunta: "¿Cómo separo la fecha y cuánto es el adelanto?", respuesta: "" },
+    { pregunta: "¿Hasta qué hora puede durar el evento?", respuesta: "" },
+    { pregunta: "¿Tienen estacionamiento?", respuesta: "" }
   ]
 };

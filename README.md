@@ -5,9 +5,9 @@ Sitio web del salón de eventos Los Ficus (Ica, Perú). Es una sola página resp
 ## Estructura
 
 ```
-index.html            Página única: inicio, eventos, el salón (con galería), testimonios, agenda y contacto
+index.html            Página única: inicio, eventos, el salón, testimonios, agenda, preguntas y cómo llegar
 css/styles.css        Estilos (mobile-first)
-js/config.js          ← Datos editables: WhatsApp, Instagram, URL de la agenda, horarios
+js/config.js          ← Datos editables: WhatsApp, Instagram, agenda, horarios, ficha, preguntas y testimonios
 js/main.js            Menú, enlaces y lógica del formulario de citas
 assets/img/           Imágenes optimizadas en WebP
 apps-script/          Script de Google que crea las citas en Google Calendar
@@ -40,7 +40,23 @@ Los pasos para configurarla están en [`apps-script/README.md`](apps-script/READ
 
 ## Fotos del salón
 
-La galería está en la sección "El salón" de `index.html`. Para agregar una foto, copia uno de los `<button class="s-photo">`, cambia la imagen y su descripción (`alt`). La primera foto es la grande. Optimiza las fotos antes con `herramientas/optimizar_fotos.py`.
+Las fotos que se abren en grande llevan `data-gallery="salon"` en `index.html` (la de "Celebraciones" y las tres de "El salón por dentro"). Para cambiar una, reemplaza la imagen, su versión grande (`data-full`) y su descripción (`alt`). Optimiza las fotos antes con `herramientas/optimizar_fotos.py`.
+
+**Evita fotos con andamios, escaleras de obra o el salón vacío en construcción.** `salon-principal.webp` tiene andamios: ya no se usa entera, solo dos recortes (`salon-lamparas-oro` y `salon-pista-vista`).
+
+## Ficha del salón y preguntas frecuentes
+
+Ambas se editan en `js/config.js`, sin tocar el HTML:
+
+- **`ficha`**: capacidad, área, estacionamiento y lo que incluye. Cada dato aparece en "El salón por dentro" solo cuando tiene `valor`.
+- **`preguntas`**: cada pregunta aparece solo cuando tiene `respuesta`. Ya hay cuatro respondidas y seis vacías: son las que más hacen los clientes de un local de eventos (aforo, qué incluye, catering propio, adelanto, hora de cierre, estacionamiento). Complétalas con datos reales.
+
+## Diseño
+
+- Tipografías: Bodoni Moda (títulos) y Figtree (texto), guardadas en `assets/fonts/` para no depender de Google Fonts.
+- Colores en `:root` de `css/styles.css`: blanco mármol, verde del logo y dorado del techo.
+- Las animaciones respetan la opción "reducir movimiento" del celular o la computadora.
+- La carpeta `assets/img/deco/` ya no se usa.
 
 ## Testimonios
 
@@ -87,7 +103,8 @@ Más adelante se puede conectar un dominio propio, por ejemplo `losficus.pe`.
 - [x] WhatsApp y celular confirmados: 941 497 280.
 - [x] Dirección y ubicación del mapa.
 - [ ] Confirmar el horario de visitas (Contacto, pie de página y datos para Google en `index.html`).
-- [ ] Datos del salón: capacidad, servicios incluidos y estacionamiento (sección "El salón" en `index.html`).
-- [ ] Reemplazar los testimonios de ejemplo por reales (`js/config.js`) y borrar `assets/img/testimonios/ejemplo-*`.
+- [ ] Datos del salón: `ficha` en `js/config.js`.
+- [ ] Responder las preguntas frecuentes vacías: `preguntas` en `js/config.js`.
+- [x] Testimonios de ejemplo retirados de `js/config.js` (usaban fotos de otros locales). Falta borrar `assets/img/testimonios/ejemplo-*` y agregar testimonios reales.
 - [ ] Cuando haya dominio propio: poner la URL completa en `og:image` y agregar `url` en los datos para Google (`index.html`).
 - [ ] Fotos de eventos reales y una foto de portada con el salón terminado.

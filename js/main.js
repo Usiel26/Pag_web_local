@@ -13,8 +13,11 @@
   document.querySelectorAll('[data-link="whatsapp"]').forEach(function (a) {
     if (CFG.whatsapp) a.href = linkWhatsapp();
   });
+  // Mientras no haya un perfil real de Instagram, se ocultan sus botones
+  var igReal = CFG.instagram && !/^https?:\/\/(www\.)?instagram\.com\/?$/.test(CFG.instagram);
   document.querySelectorAll('[data-link="instagram"]').forEach(function (a) {
-    if (CFG.instagram) a.href = CFG.instagram;
+    if (igReal) a.href = CFG.instagram;
+    else (a.closest("li") || a).remove();
   });
 
   var year = document.getElementById("year");
@@ -27,11 +30,16 @@
   function cerrarMenu() {
     nav.classList.remove("is-open");
     toggle.setAttribute("aria-expanded", "false");
+    document.documentElement.style.overflow = "";
+    actualizarBarra();
   }
 
   toggle.addEventListener("click", function () {
     var abierto = nav.classList.toggle("is-open");
     toggle.setAttribute("aria-expanded", String(abierto));
+    // con el menú abierto la página de atrás no se desplaza
+    document.documentElement.style.overflow = abierto ? "hidden" : "";
+    actualizarBarra();
   });
   nav.addEventListener("click", function (e) {
     if (e.target.closest("a")) cerrarMenu();
@@ -46,13 +54,23 @@
     if (nav.classList.contains("is-open") && !e.target.closest(".site-header")) cerrarMenu();
   });
 
-  /* ---------- Botón flotante: no tapar el formulario de reserva ---------- */
-  var waFloat = document.querySelector(".wa-float");
-  var seccionReserva = document.getElementById("reservar");
-  if (waFloat && seccionReserva && "IntersectionObserver" in window) {
-    new IntersectionObserver(function (entradas) {
-      waFloat.classList.toggle("is-hidden", entradas[0].isIntersecting);
-    }, { threshold: 0.15 }).observe(seccionReserva);
+  /* ---------- Barra de acciones: aparece después de la portada y se
+     esconde sobre el formulario, para no repetir botones en pantalla ---------- */
+  var barra = document.querySelector(".action-bar");
+  var enPortada = true, enReserva = false;
+  function actualizarBarra() {
+    if (!barra) return;
+    barra.classList.toggle("is-visible", !enPortada && !enReserva && !nav.classList.contains("is-open"));
+  }
+  if (barra && "IntersectionObserver" in window) {
+    new IntersectionObserver(function (e) {
+      enPortada = e[0].isIntersecting; actualizarBarra();
+    }, { threshold: 0.05 }).observe(document.getElementById("inicio"));
+    new IntersectionObserver(function (e) {
+      enReserva = e[0].isIntersecting; actualizarBarra();
+    }, { threshold: 0.1 }).observe(document.getElementById("reservar"));
+  } else if (barra) {
+    barra.classList.add("is-visible");
   }
 
   /* ---------- Encabezado: se oculta al bajar y vuelve al subir ---------- */
@@ -74,6 +92,42 @@
   document.addEventListener("focusin", function (e) {
     if (header.contains(e.target)) header.classList.remove("is-hidden");
   });
+
+  /* ---------- Ficha del salón (config.ficha) ---------- */
+  var ficha = document.getElementById("ficha");
+  var datosFicha = (CFG.ficha || []).filter(function (d) { return d && d.dato && d.valor; });
+  if (ficha && datosFicha.length) {
+    datosFicha.forEach(function (d) {
+      var fila = document.createElement("div");
+      var dt = document.createElement("dt");
+      var dd = document.createElement("dd");
+      dt.textContent = d.dato;
+      dd.textContent = d.valor;
+      fila.append(dt, dd);
+      ficha.appendChild(fila);
+    });
+    ficha.classList.add("details");
+    ficha.hidden = false;
+  }
+
+  /* ---------- Preguntas frecuentes (config.preguntas) ---------- */
+  var faq = document.getElementById("faq-lista");
+  var preguntas = (CFG.preguntas || []).filter(function (q) { return q && q.pregunta && q.respuesta; });
+  if (faq && preguntas.length) {
+    preguntas.forEach(function (q) {
+      var fila = document.createElement("div");
+      var dt = document.createElement("dt");
+      var dd = document.createElement("dd");
+      dt.textContent = q.pregunta;
+      dd.textContent = q.respuesta;
+      fila.append(dt, dd);
+      faq.appendChild(fila);
+    });
+  } else if (faq) {
+    document.getElementById("preguntas").hidden = true;
+    var navP = document.querySelector('[data-nav="preguntas"]');
+    if (navP) navP.remove();
+  }
 
   /* ---------- Testimonios con galería ---------- */
   var MAX_MINIATURAS = 3; // fotos pequeñas bajo la principal
@@ -246,6 +300,7 @@
   var visorImg = document.getElementById("lb-img");
   var visorCap = document.getElementById("lb-cap");
   var visorFotos = [], visorIndice = 0, visorTitulo = "", visorOrigen = null;
+  var VACIO = visorImg ? visorImg.getAttribute("src") : "";
 
   function mostrarFoto(i) {
     visorIndice = (i + visorFotos.length) % visorFotos.length;
@@ -266,19 +321,13 @@
   function cerrarVisor() {
     if (visor.open) visor.close();
   }
-  var galeriaSalon = document.getElementById("galeria");
-  if (galeriaSalon) {
-    var botonesSalon = Array.prototype.slice.call(galeriaSalon.querySelectorAll(".s-photo"));
-    var fotosSalon = botonesSalon.map(function (btn, i) {
-      var img = btn.querySelector("img");
-      btn.setAttribute("aria-label", "Ver foto " + (i + 1) + " de " + botonesSalon.length + " en grande: " + img.alt);
-      return { src: btn.dataset.full || img.src, alt: img.alt };
-    });
-    galeriaSalon.addEventListener("click", function (e) {
-      var b = e.target.closest(".s-photo");
-      if (b) abrirVisor(fotosSalon, botonesSalon.indexOf(b), "El salón");
-    });
-  }
+  var botonesSalon = Array.prototype.slice.call(document.querySelectorAll('[data-gallery="salon"]'));
+  var fotosSalon = botonesSalon.map(function (btn, i) {
+    var img = btn.querySelector("img");
+    btn.setAttribute("aria-label", "Ver foto " + (i + 1) + " de " + botonesSalon.length + " en grande: " + img.alt);
+    btn.addEventListener("click", function () { abrirVisor(fotosSalon, i, "El salón"); });
+    return { src: btn.dataset.full || img.src, alt: img.alt };
+  });
 
   if (visor) {
     visor.querySelector(".lb-prev").addEventListener("click", function () { mostrarFoto(visorIndice - 1); });
@@ -286,7 +335,7 @@
     visor.querySelector(".lb-close").addEventListener("click", cerrarVisor);
     visor.addEventListener("click", function (e) { if (e.target === visor) cerrarVisor(); });
     visor.addEventListener("close", function () {
-      visorImg.removeAttribute("src");
+      visorImg.src = VACIO;
       if (visorOrigen) visorOrigen.focus();
     });
     visor.addEventListener("keydown", function (e) {
@@ -561,7 +610,7 @@
       })
       .finally(function () {
         submitBtn.disabled = false;
-        submitBtn.textContent = "Agendar cita";
+        submitBtn.textContent = "Agendar visita";
       });
   });
 
