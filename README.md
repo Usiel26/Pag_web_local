@@ -8,7 +8,8 @@ Sitio web del salón de eventos Los Ficus (Ica, Perú). Es una sola página resp
 index.html            Página única: inicio, eventos, el salón, testimonios, agenda, preguntas y cómo llegar
 css/styles.css        Estilos (mobile-first)
 js/config.js          ← Datos editables: WhatsApp, Instagram, agenda, horarios, ficha, preguntas y testimonios
-js/main.js            Menú, enlaces y lógica del formulario de citas
+js/main.js            Menú, enlaces, visor de fotos y formulario de citas
+js/motion.js          Animaciones al bajar y progreso de la agenda
 assets/img/           Imágenes optimizadas en WebP
 apps-script/          Script de Google que crea las citas en Google Calendar
 herramientas/         Utilidades (optimizar fotos de testimonios)
@@ -57,6 +58,20 @@ Ambas se editan en `js/config.js`, sin tocar el HTML:
 - Colores en `:root` de `css/styles.css`: blanco mármol, verde del logo y dorado del techo.
 - Las animaciones respetan la opción "reducir movimiento" del celular o la computadora.
 - La carpeta `assets/img/deco/` ya no se usa.
+
+## Movimiento
+
+Todo el movimiento vive en `css/styles.css` y `js/motion.js` (el visor de fotos está en `js/main.js`). Cada animación tiene un propósito y usa solo `transform`, `opacity` y `clip-path`, para que vaya fluida en celulares:
+
+- **Portada:** el título sube palabra por palabra y la foto se descubre de arriba abajo; al bajar, la foto se acerca despacio (Chrome y Edge; en otros navegadores queda quieta).
+- **Menú:** una línea dorada marca la sección donde estás.
+- **Eventos:** al pasar el mouse, cada fila dibuja un filete dorado.
+- **El salón:** las fotos se descubren como una cortina al llegar; en celular se deslizan con el dedo.
+- **Frase:** sus palabras se encienden al bajar. Para cambiarla, edita el `<p id="frase">` en `index.html`.
+- **Visor de fotos:** la foto crece desde su miniatura. Arrástrala a los lados para cambiar y hacia abajo para cerrar.
+- **Agenda:** los pasos se marcan mientras llenas el formulario, los horarios aparecen en cascada y al confirmar se dibuja un check.
+
+Si en el celular o la computadora está activada la opción **reducir movimiento**, todo se muestra quieto y completo.
 
 ## Testimonios
 

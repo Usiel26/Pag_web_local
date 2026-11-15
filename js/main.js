@@ -215,7 +215,10 @@
         }
         gal.addEventListener("click", function (e) {
           var b = e.target.closest(".t-photo");
-          if (b) abrirVisor(fotos, Number(b.dataset.index), t.evento ? t.nombre + ", " + t.evento : t.nombre);
+          if (!b) return;
+          var botones = [];
+          gal.querySelectorAll(".t-photo").forEach(function (x) { botones[Number(x.dataset.index)] = x; });
+          abrirVisor(fotos, Number(b.dataset.index), t.evento ? t.nombre + ", " + t.evento : t.nombre, botones);
         });
         art.appendChild(gal);
       }
@@ -295,61 +298,211 @@
     actualizar();
   }
 
-  /* ---------- Visor de fotos ---------- */
+  /* ---------- Visor de fotos ----------
+     La foto crece desde su miniatura y vuelve a ella al cerrar.
+     Con el dedo: arrastrar a los lados cambia de foto, hacia abajo cierra.
+     Mientras el dedo está abajo la foto lo sigue 1:1; al soltar decide
+     por distancia o por velocidad (un toque rápido basta). */
   var visor = document.getElementById("lightbox");
   var visorImg = document.getElementById("lb-img");
   var visorCap = document.getElementById("lb-cap");
-  var visorFotos = [], visorIndice = 0, visorTitulo = "", visorOrigen = null;
+  var visorFig = visor ? visor.querySelector(".lb-figure") : null;
+  var visorFotos = [], visorIndice = 0, visorTitulo = "", visorOrigen = null, visorBotones = [];
   var VACIO = visorImg ? visorImg.getAttribute("src") : "";
+  var EASE = "cubic-bezier(0.23, 1, 0.32, 1)";
+  var FONDO = "rgba(16, 22, 17, 0.96)";
+  var cerrando = false;
+  var anima = function () { return !reduceMotion.matches && visorImg && typeof visorImg.animate === "function"; };
 
-  function mostrarFoto(i) {
+  function mostrarFoto(i, dir) {
     visorIndice = (i + visorFotos.length) % visorFotos.length;
     var f = visorFotos[visorIndice];
     visorImg.src = f.src;
     visorImg.alt = f.alt;
     visorCap.textContent = visorTitulo + " · " + (visorIndice + 1) + " de " + visorFotos.length;
     visor.classList.toggle("single", visorFotos.length < 2);
+    if (dir && anima()) {
+      // entra desde el lado hacia el que va el gesto
+      visorImg.animate(
+        [{ transform: "translateX(" + (dir * 56) + "px)", opacity: 0 }, { transform: "none", opacity: 1 }],
+        { duration: 320, easing: EASE }
+      );
+    }
   }
-  function abrirVisor(fotos, i, titulo) {
+
+  // miniatura visible en la página para la foto actual (si la hay)
+  function miniaturaActual() {
+    var btn = visorBotones[visorIndice];
+    var img = btn && btn.querySelector("img");
+    if (!img) return null;
+    var r = img.getBoundingClientRect();
+    return (r.width && r.bottom > 0 && r.top < innerHeight && r.right > 0 && r.left < innerWidth) ? img : null;
+  }
+
+  // transformación que lleva la foto grande al recuadro de la miniatura
+  function haciaMiniatura(mini) {
+    var de = mini.getBoundingClientRect(), a = visorImg.getBoundingClientRect();
+    if (!a.width || !a.height) return null;
+    var s = Math.max(de.width / a.width, de.height / a.height);
+    var dx = de.left + de.width / 2 - (a.left + a.width / 2);
+    var dy = de.top + de.height / 2 - (a.top + a.height / 2);
+    var ix = Math.max(0, (a.width - de.width / s) / 2), iy = Math.max(0, (a.height - de.height / s) / 2);
+    return {
+      transform: "translate(" + dx + "px, " + dy + "px) scale(" + s + ")",
+      clipPath: "inset(" + iy + "px " + ix + "px)"
+    };
+  }
+
+  function abrirVisor(fotos, i, titulo, botones) {
     visorFotos = fotos;
     visorTitulo = titulo;
-    visorOrigen = document.activeElement;
+    visorBotones = botones || [];
+    visorOrigen = visorBotones[i] || document.activeElement;
+    cerrando = false;
     mostrarFoto(i);
     if (typeof visor.showModal === "function") visor.showModal();
     else visor.setAttribute("open", "");
+    if (!anima()) return;
+    var mini = miniaturaActual();
+    visorImg.style.opacity = "0";
+    var listo = visorImg.decode ? visorImg.decode().catch(function () {}) : Promise.resolve();
+    listo.then(function () {
+      visorImg.style.opacity = "";
+      visor.animate([{ backgroundColor: "rgba(16, 22, 17, 0)" }, { backgroundColor: FONDO }], { duration: 280, easing: "ease" });
+      visor.querySelectorAll(".lb-btn, figcaption").forEach(function (el) {
+        el.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 240, delay: 160, easing: "ease", fill: "backwards" });
+      });
+      var desde = mini && haciaMiniatura(mini);
+      if (desde) {
+        visorImg.animate([desde, { transform: "none", clipPath: "inset(0px 0px)" }], { duration: 520, easing: EASE });
+      } else {
+        visorImg.animate([{ transform: "scale(0.96)", opacity: 0 }, { transform: "none", opacity: 1 }], { duration: 300, easing: EASE });
+      }
+    });
   }
+
   function cerrarVisor() {
-    if (visor.open) visor.close();
+    if (!visor.open || cerrando) return;
+    if (!anima()) { visor.close(); return; }
+    cerrando = true;
+    var mini = miniaturaActual();
+    var hacia = mini && haciaMiniatura(mini);
+    var actual = getComputedStyle(visorImg).transform;
+    var inicio = { transform: actual === "none" ? "none" : actual, clipPath: "inset(0px 0px)", opacity: 1 };
+    var fin = hacia ? hacia : { transform: "translateY(" + (visorImg.style.transform ? 220 : 24) + "px) scale(0.94)", clipPath: "inset(0px 0px)", opacity: 0 };
+    // salir es más rápido que entrar
+    var anim = visorImg.animate([inicio, fin], { duration: 300, easing: EASE, fill: "forwards" });
+    visor.animate([{ backgroundColor: getComputedStyle(visor).backgroundColor }, { backgroundColor: "rgba(16, 22, 17, 0)" }], { duration: 300, easing: "ease", fill: "forwards" });
+    visor.querySelectorAll(".lb-btn, figcaption").forEach(function (el) {
+      el.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 150, fill: "forwards" });
+    });
+    anim.onfinish = function () { visor.close(); };
   }
+
   var botonesSalon = Array.prototype.slice.call(document.querySelectorAll('[data-gallery="salon"]'));
   var fotosSalon = botonesSalon.map(function (btn, i) {
     var img = btn.querySelector("img");
     btn.setAttribute("aria-label", "Ver foto " + (i + 1) + " de " + botonesSalon.length + " en grande: " + img.alt);
-    btn.addEventListener("click", function () { abrirVisor(fotosSalon, i, "El salón"); });
+    btn.addEventListener("click", function () { abrirVisor(fotosSalon, i, "El salón", botonesSalon); });
     return { src: btn.dataset.full || img.src, alt: img.alt };
   });
 
   if (visor) {
-    visor.querySelector(".lb-prev").addEventListener("click", function () { mostrarFoto(visorIndice - 1); });
-    visor.querySelector(".lb-next").addEventListener("click", function () { mostrarFoto(visorIndice + 1); });
+    visor.querySelector(".lb-prev").addEventListener("click", function () { mostrarFoto(visorIndice - 1, -1); });
+    visor.querySelector(".lb-next").addEventListener("click", function () { mostrarFoto(visorIndice + 1, 1); });
     visor.querySelector(".lb-close").addEventListener("click", cerrarVisor);
-    visor.addEventListener("click", function (e) { if (e.target === visor) cerrarVisor(); });
+    visor.addEventListener("cancel", function (e) { e.preventDefault(); cerrarVisor(); });
     visor.addEventListener("close", function () {
+      visor.getAnimations({ subtree: true }).forEach(function (a) { a.cancel(); });
+      visorImg.style.transform = "";
+      visorImg.style.transition = "";
+      visor.style.backgroundColor = "";
       visorImg.src = VACIO;
-      if (visorOrigen) visorOrigen.focus();
+      cerrando = false;
+      if (visorOrigen) visorOrigen.focus({ preventScroll: true });
     });
     visor.addEventListener("keydown", function (e) {
-      if (e.key === "ArrowLeft") mostrarFoto(visorIndice - 1);
-      if (e.key === "ArrowRight") mostrarFoto(visorIndice + 1);
+      if (e.key === "ArrowLeft") mostrarFoto(visorIndice - 1, -1);
+      if (e.key === "ArrowRight") mostrarFoto(visorIndice + 1, 1);
     });
-    var toqueX = null;
-    visor.addEventListener("touchstart", function (e) { toqueX = e.touches[0].clientX; }, { passive: true });
-    visor.addEventListener("touchend", function (e) {
-      if (toqueX === null) return;
-      var dx = e.changedTouches[0].clientX - toqueX;
-      if (Math.abs(dx) > 50) mostrarFoto(visorIndice + (dx < 0 ? 1 : -1));
-      toqueX = null;
+
+    // tocar el fondo oscuro (no la foto ni los botones) cierra
+    var huboArrastre = false;
+    visor.addEventListener("click", function (e) {
+      if (huboArrastre) { huboArrastre = false; return; }
+      if (e.target === visor || e.target === visorFig) cerrarVisor();
     });
+
+    var drag = null;
+    function soltar(e) {
+      if (!drag || e.pointerId !== drag.id) return;
+      var d = drag;
+      drag = null;
+      if (!d.eje) return;
+      huboArrastre = true;
+      var h = d.hist, v = 0;
+      if (h.length > 1) {
+        var dt = h[h.length - 1].t - h[0].t;
+        if (dt > 0) v = (h[h.length - 1].v - h[0].v) / dt; // px por ms
+      }
+      visorImg.style.transition = "transform 320ms " + EASE;
+      if (d.eje === "x") {
+        var pasa = visorFotos.length > 1 && (Math.abs(d.d) > innerWidth * 0.22 || Math.abs(v) > 0.45);
+        if (pasa) {
+          var dir = (d.d !== 0 ? d.d : -v) < 0 ? 1 : -1;
+          visorImg.style.transition = "transform 160ms ease-out";
+          visorImg.style.transform = "translateX(" + (-dir * innerWidth * 0.5) + "px)";
+          setTimeout(function () {
+            visorImg.style.transition = "none";
+            visorImg.style.transform = "";
+            mostrarFoto(visorIndice + dir, dir);
+          }, 160);
+        } else {
+          visorImg.style.transform = "";
+        }
+      } else {
+        if (d.d > 120 || v > 0.5) {
+          visorImg.style.transition = "";
+          cerrarVisor();
+        } else {
+          visorImg.style.transform = "";
+          visor.style.transition = "background-color 320ms ease";
+          visor.style.backgroundColor = "";
+        }
+      }
+    }
+    visorImg.addEventListener("dragstart", function (e) { e.preventDefault(); });
+    visorImg.addEventListener("pointerdown", function (e) {
+      if (e.button !== 0 || cerrando) return;
+      drag = { id: e.pointerId, x: e.clientX, y: e.clientY, eje: null, d: 0, hist: [] };
+    });
+    visor.addEventListener("pointermove", function (e) {
+      if (!drag || e.pointerId !== drag.id) return;
+      var dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+      if (!drag.eje) {
+        if (Math.hypot(dx, dy) < 10) return; // umbral antes de decidir la dirección
+        drag.eje = Math.abs(dx) > Math.abs(dy) ? "x" : "y";
+        if (drag.eje === "y" && dy < 0) { drag = null; return; }
+        try { visorImg.setPointerCapture(e.pointerId); } catch (err) { /* sin captura */ }
+        visorImg.style.transition = "none";
+        visor.style.transition = "none";
+      }
+      var pos = drag.eje === "x" ? e.clientX : e.clientY;
+      drag.hist.push({ v: pos, t: e.timeStamp });
+      if (drag.hist.length > 5) drag.hist.shift();
+      if (drag.eje === "x") {
+        // con una sola foto, resistencia en lugar de un tope seco
+        drag.d = visorFotos.length > 1 ? dx : dx * 0.25;
+        visorImg.style.transform = "translateX(" + drag.d + "px)";
+      } else {
+        drag.d = Math.max(0, dy);
+        var k = Math.min(drag.d / 500, 0.8);
+        visorImg.style.transform = "translateY(" + drag.d + "px) scale(" + (1 - Math.min(drag.d / 1600, 0.2)) + ")";
+        visor.style.backgroundColor = "rgba(16, 22, 17, " + (0.96 * (1 - k)) + ")";
+      }
+    });
+    visor.addEventListener("pointerup", soltar);
+    visor.addEventListener("pointercancel", soltar);
   }
 
   /* ---------- Agenda de citas ---------- */

@@ -16,9 +16,10 @@
   <link rel="icon" href="assets/img/favicon.png" type="image/png">
   <link rel="preload" href="assets/fonts/bodoni-moda-latin-standard-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/figtree-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="css/styles.css?v=2026-11-14">
-  <script src="js/config.js?v=2026-11-14" defer></script>
-  <script src="js/main.js?v=2026-11-14" defer></script>
+  <link rel="stylesheet" href="css/styles.css?v=2026-11-15">
+  <script src="js/config.js?v=2026-11-15" defer></script>
+  <script src="js/main.js?v=2026-11-15" defer></script>
+  <script src="js/motion.js?v=2026-11-15" defer></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -80,7 +81,7 @@
         <img src="assets/img/salon-escalera.webp" alt="Salón Los Ficus visto desde la escalera: techo dorado con lámparas de cristal, pista de mármol blanco y mesas listas para un evento" width="768" height="1024" fetchpriority="high">
       </div>
       <div class="hero-text">
-        <h1>Un salón de mármol y cristal para celebrar en Ica</h1>
+        <h1><span class="w"><span style="--i:0">Un</span></span> <span class="w"><span style="--i:1">salón</span></span> <span class="w"><span style="--i:2">de</span></span> <span class="w"><span style="--i:3">mármol</span></span> <span class="w"><span style="--i:4">y</span></span> <span class="w"><span style="--i:5">cristal</span></span> <span class="w"><span style="--i:6">para</span></span> <span class="w"><span style="--i:7">celebrar</span></span> <span class="w"><span style="--i:8">en</span></span> <span class="w"><span style="--i:9">Ica</span></span></h1>
         <p class="hero-lead">Bodas, quinceañeros, bautizos y fiestas de promoción en el cruce de la Av. Cutervo. Ven a conocer el local con una cita y cotiza tu evento ahí mismo.</p>
         <div class="hero-actions">
           <a href="#reservar" class="btn btn-primary">Agendar visita</a>
@@ -119,13 +120,13 @@
         </div>
 
         <div class="salon-grid" id="galeria">
-          <button type="button" class="photo s-wide" data-gallery="salon" data-full="assets/img/salon-pista-vista.webp">
+          <button type="button" class="photo s-wide" style="--i:0" data-gallery="salon" data-full="assets/img/salon-pista-vista.webp">
             <img src="assets/img/salon-pista-vista-mini.webp" alt="Vista de la pista de baile de mármol blanco desde el balcón" width="800" height="500" loading="lazy">
           </button>
-          <button type="button" class="photo s-tall" data-gallery="salon" data-full="assets/img/salon-lamparas.webp">
+          <button type="button" class="photo s-tall" style="--i:1" data-gallery="salon" data-full="assets/img/salon-lamparas.webp">
             <img src="assets/img/salon-lamparas-mini.webp" alt="Salón preparado para un evento, con invitados llegando" width="768" height="1024" loading="lazy">
           </button>
-          <button type="button" class="photo s-square" data-gallery="salon" data-full="assets/img/salon-lamparas-oro.webp">
+          <button type="button" class="photo s-square" style="--i:2" data-gallery="salon" data-full="assets/img/salon-lamparas-oro.webp">
             <img src="assets/img/salon-lamparas-oro-mini.webp" alt="Lámpara de cristal frente a los paneles dorados y las paredes de mármol" width="560" height="448" loading="lazy">
           </button>
         </div>
@@ -140,6 +141,13 @@
         <!-- Ficha del salón: se completa en js/config.js (ficha) y aparece sola
              cuando hay al menos un dato. -->
         <dl class="ficha" id="ficha" hidden></dl>
+      </div>
+    </section>
+
+    <!-- FRASE: sus palabras se iluminan al bajar (js/motion.js) -->
+    <section class="section statement-section" aria-label="El salón y tu evento">
+      <div class="wrap">
+        <p class="statement" id="frase">Tú pones la fecha y los invitados. <span class="acc">Nosotros ponemos el mármol, el cristal y la luz.</span></p>
       </div>
     </section>
 
@@ -169,9 +177,9 @@
           <h2>Agenda tu visita al salón</h2>
           <p>Elige el día y la hora. Te mostramos el local, revisamos juntos lo que necesitas y te damos la cotización de tu evento.</p>
           <ol class="steps">
-            <li><strong>Elige un día y una hora libre.</strong><span>Los ocupados aparecen tachados.</span></li>
-            <li><strong>Déjanos tus datos y el tipo de evento.</strong><span>Así llegamos preparados.</span></li>
-            <li><strong>Recibe la confirmación en tu correo.</strong><span>Te esperamos en el local.</span></li>
+            <li data-paso="1"><strong>Elige un día y una hora libre.</strong><span>Los ocupados aparecen tachados.</span></li>
+            <li data-paso="2"><strong>Déjanos tus datos y el tipo de evento.</strong><span>Así llegamos preparados.</span></li>
+            <li data-paso="3"><strong>Recibe la confirmación en tu correo.</strong><span>Te esperamos en el local.</span></li>
           </ol>
           <p class="booking-alt">¿Prefieres coordinar por mensaje? <a href="https://wa.me/51941497280" data-link="whatsapp" target="_blank" rel="noopener">Escríbenos por WhatsApp</a></p>
         </div>
@@ -251,6 +259,7 @@
           </form>
 
           <div class="booking-done" id="booking-done" hidden tabindex="-1">
+            <svg class="done-mark" viewBox="0 0 52 52" aria-hidden="true"><circle cx="26" cy="26" r="24"/><path d="M15 27.5l7.5 7.5L37.5 19"/></svg>
             <h3>Cita agendada</h3>
             <p id="done-text"></p>
             <button type="button" class="btn btn-secondary" id="new-booking">Agendar otra visita</button>
@@ -331,7 +340,7 @@
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
     </button>
     <figure class="lb-figure">
-      <img id="lb-img" alt="" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
+      <img id="lb-img" alt="" draggable="false" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
       <figcaption id="lb-cap"></figcaption>
     </figure>
     <button type="button" class="lb-btn lb-next" aria-label="Foto siguiente">
